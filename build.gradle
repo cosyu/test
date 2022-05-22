@@ -1,0 +1,44 @@
+plugins {
+    //it needs Spring Boot & Spring Dependency Management plugin,
+    //otherwise, it cannot use dependencies of Spring Boot for the java application
+    id 'org.springframework.boot' version '2.5.6'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    //it needs Java plugin, otherwise, it cannot build the java application
+    id 'java'
+    //id 'eclipse'
+}
+
+
+//to specify the JDK version
+sourceCompatibility = '17'
+
+// used by command line runner
+//bootRun {
+//	standardInput = System.in
+//}
+
+group 'org.example.test'
+version '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation('org.springframework.boot:spring-boot-starter-data-jpa')
+    //implementation("org.springframework.boot:spring-boot-starter")
+    compileOnly("org.projectlombok:lombok:1.18.20")
+    annotationProcessor("org.projectlombok:lombok:1.18.20")
+
+    // https://mvnrepository.com/artifact/com.google.guava/guava
+    implementation 'com.google.guava:guava:31.1-jre'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+//    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+//    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+test {
+    useJUnitPlatform()
+}
