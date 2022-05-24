@@ -3,7 +3,6 @@ package com.example.async;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.concurrent.Future;
 
@@ -14,7 +13,7 @@ public class AsyncClass {
 
     //it will use TaskExecutor which is  defined in AsyncConfig class
     @Async("threadPool")
-    @Transactional
+    //@Transactional
     //if async method needs transactional, declare @Transactional to the method,
     //@Transactional declared in main thread is not working for the async method
     public void asyncMethod() throws Exception{
