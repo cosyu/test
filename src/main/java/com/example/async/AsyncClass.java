@@ -12,6 +12,7 @@ import java.util.concurrent.Future;
 public class AsyncClass {
 
     //it will use TaskExecutor which is  defined in AsyncConfig class
+    //the thread will be put in the pool
     @Async("threadPool")
     //@Transactional
     //if async method needs transactional, declare @Transactional to the method,
@@ -35,6 +36,7 @@ public class AsyncClass {
     }
 
     //it will use TaskExecutor which is  defined in AsyncConfig class
+    //the thread will be put in the pool
     @Async("threadPool")
     public Future<String> asyncMethod2() throws Exception{
 
@@ -45,7 +47,7 @@ public class AsyncClass {
                 throw new Exception("test throw exception from async method");
             }
             System.out.println("-----"+Thread.currentThread().getName()+ "  asyncMethod is end");
-            return new AsyncResult<String>("Hello World!");
+            return new AsyncResult<String>("Hello World!");//return Future<T>
         }catch (Exception ex){
             System.out.println(ex.getMessage());
             throw ex;

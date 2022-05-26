@@ -24,6 +24,8 @@ public class AsyncConfig implements AsyncConfigurer {
 
         //defined the task executor for async method
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        //ThreadPoolTaskExecutor->AsyncListenableTaskExecutor->AsyncTaskExecutor->TaskExecutor->Executor
+
         // 线程池维护线程的最少数量
         executor.setCorePoolSize(5);
         // 线程池维护线程的最大数量
