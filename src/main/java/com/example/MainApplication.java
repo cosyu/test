@@ -26,7 +26,6 @@ public class MainApplication {
 		ApplicationContext ctx = SpringApplication.run(MainApplication.class, args);
 		System.out.println("--- Run Spring Application Successfully---");
 
-
 		List<User> userList = parseArray("response", User.class);
 /*
 		CollectionGeneric c = new CollectionGeneric(new ArrayList());c.show();
