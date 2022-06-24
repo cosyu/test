@@ -22,6 +22,8 @@ public class MainApplication {
 //		System.out.println("Enter Course");
 //		String course = b.readLine();
 //		System.out.println("Edureka" + course);
+		String encoding = System.getProperty("file.encoding");
+		String timezone = System.getProperty("user.timezone");
 		System.out.println("--- Start to Run Spring Application---");
 		ApplicationContext ctx = SpringApplication.run(MainApplication.class, args);
 		System.out.println("--- Run Spring Application Successfully---");

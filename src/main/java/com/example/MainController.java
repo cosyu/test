@@ -2,7 +2,11 @@ package com.example;
 
 import com.example.async.AsyncClass;
 import com.example.test.User;
+import com.example.utils.EncryptUtils;
+import com.example.utils.FileUtils;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,11 +19,17 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 @RestController
 public class MainController {
 
+    //AppConfig will read the property file when Spring application is starting up
+    //so that the value can be injected
+    @Value("${session.server}")
+    private String sessionServer;
 
     @Autowired
     private AsyncClass asyncClass;
@@ -110,6 +120,32 @@ public class MainController {
          * Content-Type in Response Header will be application/json
          *
         * */
+    }
+
+    @PostMapping("/postUser")
+    public String postUser(@RequestBody(required = true) User user){
+
+        return user.getName()+"--"+user.getPassword();
+
+    }
+
+    @PostMapping("/postJsonObject")
+    public JSONObject postJsonObject(@RequestBody User user){
+
+        HttpServletRequest request = getRequest();
+        Enumeration<String> heads =  request.getHeaderNames();
+
+        while (heads.hasMoreElements()) {
+            String headName = (String) heads.nextElement();
+            String headValue = request.getHeader(headName);//根据请求头的名字获取对应的请求头的值
+            System.out.println(headName+"-"+headValue);
+        }
+
+        JSONObject object = new JSONObject();
+        object.put("name",user.getName());
+        object.put("password",user.getPassword());
+        return object;
+
     }
 
     @PostMapping("requestFile")
@@ -221,5 +257,34 @@ public class MainController {
 
     public static HttpServletResponse getResponse() {
         return ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getResponse();
+    }
+
+    @GetMapping("/property")
+    public String property() throws Exception{
+
+        String res = System.getProperty("file.encoding");
+        String res2 = System.getProperty("common.properties");
+        String res3 = Charset.defaultCharset().toString();
+        String res4 = System.getProperty("user.timezone");
+        System.out.println(res);
+        System.out.println(res2);
+        System.out.println(res3);
+        System.out.println(res4);
+
+        String filePath = "C:\\Users\\Dell\\IdeaProjects\\TestStart\\log\\test.log";
+        String secretKey = "uBdUx82vPHkDKb284d7NkjFoNcKWBuka";
+        String content = "AAAADJNzQVWoJ6AYLsEHtyzdz4WSUO9VL4iP8FOWcsmG4Nay9w5rcMsyBOg34Jt3ldbhwvD8vxOxu+0spOm4S78a7mTzQarRhvwNuxwXu8hUp1Q=";
+        content = "AAAADDZha4GZVX1rfYYZNJnpr4lpF1Ix5Kc7giTD65sfvC+5kPvpZGmK83qj/R8K8PweeZ32jIHvn/7rg3N/7oA+3UzKmFQsrTsZVhdnHWphmRmm";
+        String s =  new String(EncryptUtils.aesDecrypt(Base64.getDecoder().decode(content),
+                secretKey.getBytes()), StandardCharsets.UTF_8);
+        String s2 =  new String(EncryptUtils.aesDecrypt(Base64.getDecoder().decode(content),
+                secretKey.getBytes()));//it uses default charset to create string , may show 爛字 for Chinese
+        System.out.println(s);
+        System.out.println(s2);
+        FileUtils.writeStringToNewFile(filePath,"");
+        FileUtils.appendStringToFile(filePath,s);
+        FileUtils.appendStringToFile(filePath,"\n"+s2);
+
+        return "complete";
     }
 }

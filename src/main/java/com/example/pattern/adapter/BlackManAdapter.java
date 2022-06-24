@@ -1,9 +1,9 @@
 package com.example.pattern.adapter;
 
 //Adapter is used to translate black man
-public class BlackManTranslator extends Adapter{
+public class BlackManAdapter extends Adapter{
 
-    public BlackManTranslator(String name) {
+    public BlackManAdapter(String name) {
         super(name);
     }
 

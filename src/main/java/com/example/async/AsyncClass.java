@@ -16,16 +16,16 @@ public class AsyncClass {
     @Async("threadPool")
     //@Transactional
     //if async method needs transactional, declare @Transactional to the method,
-    //@Transactional declared in main thread is not working for the async method
+    //@Transactional declared in main thread is NOT working for the async method
     public void asyncMethod() throws Exception{
 
         System.out.println("-----"+Thread.currentThread().getName()+ "  asyncMethod is start");
 
         try{
             //Thread.sleep(10000);
-            if(true){
-                throw new Exception("test throw exception from async method");
-            }
+//            if(true){
+//                throw new Exception("test throw exception from async method");
+//            }
         }catch (Exception ex){
             System.out.println("------run asyncMethod error:" + ex.getMessage());
             throw ex;
@@ -43,9 +43,9 @@ public class AsyncClass {
         System.out.println("-----"+Thread.currentThread().getName()+ "  asyncMethod is start");
         try{
             //Thread.sleep(5000);
-            if(true){
-                throw new Exception("test throw exception from async method");
-            }
+//            if(true){
+//                throw new Exception("test throw exception from async method");
+//            }
             System.out.println("-----"+Thread.currentThread().getName()+ "  asyncMethod is end");
             return new AsyncResult<String>("Hello World!");//return Future<T>
         }catch (Exception ex){

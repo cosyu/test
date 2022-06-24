@@ -1,6 +1,6 @@
 package com.example.pattern.adapter;
 
-//Adapter is used to make required business for client side
+//Adapter is used to implement required business for client side
 public abstract class Adapter {
 
     private String name;
