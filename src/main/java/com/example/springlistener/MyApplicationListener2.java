@@ -14,12 +14,14 @@ public class MyApplicationListener2{
 
     @EventListener(classes = {ApplicationEvent.class})
     public void onApplicationEvent(ApplicationEvent event) {
-        //System.out.println("-----trigger event:" + event.getClass().getName());
+       // System.out.println("-----trigger event:" + event.getClass().getName());
     }
 
+    //it will not be executed as it is not included in application event list
+    /*
     @EventListener(classes = {ServletContextEvent.class})
     public void onServletContextEvent(ServletContextEvent event) {
-        //System.out.println("-----trigger event:" + event.getClass().getName());
-    }
+        System.out.println("-----trigger event:" + event.getClass().getName());
+    }*/
 
 }

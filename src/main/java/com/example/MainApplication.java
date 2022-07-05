@@ -4,6 +4,7 @@ package com.example;
 import com.example.test.User;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.ApplicationContext;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
 //This class should be put in the root package so that all classes
 // under the root package can be scanned by Spring
 @SpringBootApplication
+@ServletComponentScan//it needs this annotation if application is using WebServlet, WebFilter, WebListener
 public class MainApplication {
 
 

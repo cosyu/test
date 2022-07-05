@@ -7,6 +7,7 @@ import com.example.utils.FileUtils;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +34,9 @@ public class MainController {
 
     @Autowired
     private AsyncClass asyncClass;
+
+    @Autowired
+    private MessageSource messageSource;
 
     @GetMapping("/index")
     public String index(){
@@ -287,4 +291,41 @@ public class MainController {
 
         return "complete";
     }
+
+    @GetMapping("/locale")
+    public String locale(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        Locale locale = LocaleContextHolder.getLocale();
+        return messageSource.getMessage("current.locale", null, locale);
+    }
+
+    //@PostMapping("/doLogin")
+    @GetMapping("/doLogin")
+    public String login(HttpServletRequest request, HttpServletResponse response){
+
+        //Session will be created automatically if client side send request first time or the current session
+        //is expired, but developer is used to save login user in the session.
+        request.getSession().setAttribute("username","Jason");
+        return "Jason";
+    }
+
+
+    @GetMapping("/queryUser")
+    public String queryUser(HttpServletRequest request, HttpServletResponse response){
+
+        String userName = (String) request.getSession().getAttribute("username");
+        String csrfToken = request.getHeader("XSRF-TOKEN");
+        return "Current username is:"+userName+" -session id:"+request.getSession().getId()+"-csrfToken: "+csrfToken;
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request, HttpServletResponse response){
+
+        /*destroy current session, it will create another new session
+        and save it to Redis(if application is using Redis to save session) if client send request again
+        */
+        request.getSession().removeAttribute("username");
+        request.getSession().invalidate();
+        return "logout";
+    }
+
 }

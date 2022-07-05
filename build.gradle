@@ -26,8 +26,12 @@ repositories {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
-    //implementation('org.springframework.boot:spring-boot-starter-data-jpa')
+    //implementation('org.springframework.boot:spring-boot-starter-data-jpa')//for JPA, it needs database configure, otherwise, the application will fail to start
     //implementation("org.springframework.boot:spring-boot-starter")
+    implementation("org.springframework.boot:spring-boot-starter-data-redis")//for session repository to save session to Redis
+    implementation("org.springframework.session:spring-session-data-redis")//for session
+    implementation("org.springframework.boot:spring-boot-starter-security")//Spring application will perform authentication automatically once the Spring Security is added into application
+
     compileOnly("org.projectlombok:lombok:1.18.20")
     annotationProcessor("org.projectlombok:lombok:1.18.20")
 

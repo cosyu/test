@@ -2,29 +2,15 @@ package com.example.resettemplate;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.client.HttpClient;
-import org.apache.http.conn.ssl.NoopHostnameVerifier;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.ssl.SSLContexts;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Scope;
-import org.springframework.core.io.Resource;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
-import javax.net.ssl.KeyManagerFactory;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManagerFactory;
-import java.io.InputStream;
-import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,13 +23,13 @@ public class RestClientConfig {
     public RestTemplate restOperations(ClientHttpRequestFactory clientHttpRequestFactory) throws Exception {
         RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory);
         //set interceptor
-        MyInterceptor myInterceptor = new MyInterceptor();
+        ResetTemplateInterceptor myInterceptor = new ResetTemplateInterceptor();
         List<ClientHttpRequestInterceptor> list = new ArrayList<>();
         list.add(myInterceptor);
         restTemplate.setInterceptors(list);
 
         //set error handler
-        restTemplate.setErrorHandler(new MyResponseErrorHandler());
+        restTemplate.setErrorHandler(new ResetTemplateResponseErrorHandler());
         return restTemplate;
     }
 

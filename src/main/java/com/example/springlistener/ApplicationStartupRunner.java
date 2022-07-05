@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+//it will be executed after the
 @Component
 @Slf4j
 public class ApplicationStartupRunner implements CommandLineRunner {
