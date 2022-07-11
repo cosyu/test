@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Combine CSS</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1" > <!--responsive feature-->
+        <style>
+            body{
+                font-size: 20px;/*this style will be override by following style*/
+            }
+            
+            #test1,#test2{ /*multiple ids share the same style*/
+                font-size:20px;
+                color: blueviolet;
+            }
+
+            /*style the div inside the #test1, use space*/
+            #test1 div{ /*the partent should be id or class instead html tag */
+                font-size: 10px; /*it will extend style(i.e. font-size & color) from parent(i.e. #test1),
+                and override the same property(i.e. font-size)*/
+            }
+            
+            /*do not recommand to set style like this, it should use #test1 .class1 */
+            .class1{
+                font-size: 40px;
+                color: brown;
+            }
+
+            #test2 > p{ /* <!-- for Child but not Descendant -->*/
+                background-color: yellow;
+            }
+
+            #test2 + p{ /* <!-- for first Sibling  after #test2 -->*/
+                background-color: yellow;
+            }
+           
+            #test2 ~ p{ /* <!-- for all Sibling  after #test2 -->*/
+                background-color: yellow;
+            }
+
+
+        </style>
+    </head>
+    <body>
+        <div id="test1">
+            content in test1 div
+            <div> content in sub div
+                <div class="class1">sub sub div</div><!--This div will extend all style from the partners(i.e. #test1 & super div)-->
+            </div>
+        </div>
+        <div id="test2">content in test2.....
+            <p>Paragraph 1 in the div.</p>
+            <p>Paragraph 2 in the div.</p>
+            <section>
+                <!-- not Child but Descendant -->
+                <p>Paragraph 3 in the div (inside a section element).</p>
+              </section>
+        </div>
+        <p>Paragraph 3. After a div.</p>
+        <p>Paragraph 4. After a div.</p>
+    </body>
+</html>

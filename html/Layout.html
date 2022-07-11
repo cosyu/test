@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Layout</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1" ><!--responsive feature-->
+    <style>
+        * {
+            box-sizing:border-box;
+        }
+        /*
+        content-box  是默认值。如果你设置一个元素的宽为 100px，那么这个元素的内容区会有 100px 宽，并且任何边框和内边距的宽度都会被增加到最后
+        绘制出来的元素宽度中。
+        border-box 告诉浏览器：你想要设置的边框和内边距的值是包含在 width 内的。也就是说，如果你将一个元素的 width 设为 100px，
+        那么这 100px 会包含它的 border 和 padding，内容区的实际宽度是 width 减去 (border + padding) 的值。大多数情况下，
+        这使得我们更容易地设定一个元素的宽高。
+        */
+        body{
+            font-family:Arial, Helvetica, sans-serif;
+        }
+
+        header{
+            background-color:gray;
+            padding: 20px;/*padding of the content*/
+            text-align: center;
+            font-size: 20px; /*text font size*/
+            color:blue; /*text color*/
+        }
+        
+        nav{
+            float: left;/*指定一个元素应沿其容器的左侧或右侧放置，允许文本和内联元素环绕它
+            当一个元素浮动之后，它会被移出正常的文档流，然后向左或者向右平移，一直平移直到碰到了所处的容器的边框，或者碰到另外一个浮动的元素*/
+            width: 30%;
+            height: 300px;
+            background-color: bisque;
+            padding: 20px;
+        }
+
+        /*style the ul inside the nav tag, use space*/
+        nav ul{
+            list-style-type: none;/*设置列表元素的 marker（比如圆点、符号、或者自定义计数器样式）*/
+            padding:0;
+        }
+
+        /*article 和 nav 是并排關糸,要float left, same height*/
+        article{
+            float: left;
+            padding: 20px;
+            width: 70%;
+            height: 300px;
+            background-color: dimgray;
+        }
+
+        /*clear floats(make elements display as block after section) after the section(as section is using float)*/
+        section::after{
+            content: "";
+            clear: both;/*指定一个元素是否必须移动 (清除浮动后) 到在它之前的浮动元素下面*/
+            display:block;
+        }
+
+        footer{
+            background-color: #777;
+            padding:10px;
+            text-align: center;
+            color: white;
+        }
+
+    </style>
+</head>
+
+<body>
+    
+    <h2>CSS Layout Float</h2>
+    <p>In this example, we have created a header, two columns/boxes and a footer. On smaller screens, the columns </p>
+    <p>Resize the browser window to see the responsive effect (you will learn more about this in our next chapter - HTML Responsive.)</p>
+    <header>
+        <h2>Cities</h2><h3>Other</h3>
+    </header>
+    <section>
+        <nav>
+            <ul>
+                <li><a href="#">London</a></li>
+                <li><a href="#">Paris</a></li>
+                <li><a href="#">Tokyo</a></li>
+            </ul>
+        </nav>
+        
+        <article>
+            <h1>London</h1>
+            <p>London is the capital city of England. It is the most populous city in the  United Kingdom, with a metropolitan area of o</p>
+            <p>Standing on the River Thames, London has been a major settlement for two millennia, its history going back to its found</p>
+        </article>
+    
+    </section>
+
+    <footer>
+        <p>Footer...</p>
+    </footer>
+
+</body>
+</html>

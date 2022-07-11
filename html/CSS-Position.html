@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>CSS-Position</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1" > <!--responsive feature-->
+        <style>
+
+           .border{
+            background-color: lightgreen;
+            width: 300px;
+            border: 5px solid green;
+            padding: 50px;
+            margin: 20px;
+           }
+
+           .relative{
+             position: relative;
+             left: 40px;
+             width: 300px;
+            height: 200px;
+             border: 3px solid #73ad21;
+           }
+
+          
+           .absolute{
+            position:absolute; /*absolute絶對 for the partner container which is relative position*/
+            top: 80px;
+            right: 10px;
+            width: 200px;
+            height: 100px;
+            border: 3px solid #73ad21;
+           }
+
+           .fixed{
+            position:fixed;
+            bottom: 0;
+            right: 0;
+            width: 300px;
+            border: 3px solid #73ad21;
+           }
+
+           .sticky{
+            position:sticky;
+            top:0;
+            padding: 5px;
+            background-color: #cae8ca;
+            border: 2px solid #4CAF50;
+           }
+           
+           .container{
+             background-color: antiquewhite;
+             width:1000px;
+             height:300px;
+             position: relative;
+           }
+
+           .topleft{
+             position:absolute; /*absolute絶對 for the partner container which is relative position*/
+             top:8px;
+             left:16px;
+             font-size: 18px;
+           }
+           .topright{
+             position: absolute;
+             top:8px;
+             right: 16px;
+             font-size: 18px;
+           }
+           .bottomleft{
+            position: absolute;
+            bottom: 8px;
+            left:16px;
+            font-size: 18px;
+           }
+           .bottomright{
+            position: absolute;
+            bottom: 8px;
+            right: 16px;
+            font-size: 18px;
+           }
+           .center{
+            position: relative;
+            top:50%;
+            width: 100%;
+            text-align: center;
+            font-size: 18px;
+           }
+        </style>
+    </head>
+    <body>
+        
+        <div class="border">This text is the content of the box. We have added a 50px padding, 20px margin and a 15px green border. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+    
+        <div class="relative">
+            This div element has position: relative;
+            <div class="absolute">This div element has position: absolute;</div>
+        </div>
+
+        <div class="fixed">This div element has position: fixed;</div>
+
+        <div class="sticky">I am sticky!</div>
+
+<div style="padding-bottom:800px">
+  <p>In this example, the sticky element sticks to the top of the page (top: 0), when you reach its scroll position.</p>
+  <p>Scroll back up to remove the stickyness.</p>
+  <p>Some text to enable scrolling.. Lorem ipsum dolor sit amet, illum definitiones no quo, maluisset concludaturque et eum, altera fabulas ut quo. Atqui causae gloriatur ius te, id agam omnis evertitur eum. Affert laboramus repudiandae nec et. Inciderint efficiantur his ad. Eum no molestiae voluptatibus.</p>
+  <p>Some text to enable scrolling.. Lorem ipsum dolor sit amet, illum definitiones no quo, maluisset concludaturque et eum, altera fabulas ut quo. Atqui causae gloriatur ius te, id agam omnis evertitur eum. Affert laboramus repudiandae nec et. Inciderint efficiantur his ad. Eum no molestiae voluptatibus.</p>
+</div>
+    
+
+    <div class="container">
+        
+        <div class="topleft">Top Left</div>
+        <div class="topright">Top Right</div>
+        <div class="bottomleft">bottom Left</div>
+        <div class="bottomright">bottom Right</div>
+        <div class="center">Center</div>
+    </div>
+
+    </body>
+</html>

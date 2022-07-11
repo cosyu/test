@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!--responsive feature-->
+        <style>
+            *{
+                box-sizing: border-box;
+            }
+
+            .content div{
+                padding: 10px;
+                text-align: center;
+                overflow: auto;/*定义当一个元素的内容太大而无法适应 块级格式化上下文 时候该做什么*/
+            }
+
+            .content .menu{
+                width: 20%;
+                float: left;
+            }
+
+            .content .menu a{
+                background-color: #e5e5e5;
+                padding: 8px;
+                margin-top: 7px;
+                display: block;
+                width: 100%;
+                color: black;
+            }
+            .content .main{
+                float: left;
+                width: 60%;
+                text-align: left;
+               
+            }
+            .content .right{
+                float: left;
+                width: 20%;
+                background-color: #e5e5e5;
+                margin-top: 7px;
+            }
+            .content::after{
+                content: "";
+                clear: both;/*指定一个元素是否必须移动 (清除浮动后) 到在它之前的浮动元素下面*/
+                display:block;
+            }
+        </style>
+    </head>
+
+    <body style="font-family:Verdana, Geneva, Tahoma, sans-serif; color:#aaaaaa;">
+        <div style="background-color: #e5e5e5; padding: 15px; text-align: center;"><h1>This is header</h1></div>
+        <div class="content">
+            <div class="menu">
+                <a href="#">Link 1</a>
+                <a href="#">Link 2</a>
+                <a href="#">Link 3</a>
+                <a href="#">Link 4</a>
+            </div>
+            <div class="main">
+                <h2>Lorum Ipsum</h2>
+                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+            </div>
+            <div class="right">
+                <h2>About</h2>
+                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
+            </div> 
+        </div>
+
+        <div style="background-color:bisque; text-align:center;padding: 10px; margin-top: 7px;">
+            <p>© copyright w3schools.com</p>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!--responsive feature-->
+    </head>
+<body>
+
+<h2>Allow Multiple Selections</h2>
+
+<p>Use the multiple attribute to allow the user to select more than one value.</p>
+
+<form action="#" oninput="x.value=parseInt(a.value)+parseInt(b.value)">
+
+    <input name="browser2" > <!--default is text field-->
+    <br/><br/>
+    <!--multiple selection-->
+  <label for="cars">Choose a car:</label>
+  <select id="cars" name="cars" size="4" multiple>
+    <option value="volvo">Volvo</option>
+    <option value="saab">Saab</option>
+    <option value="fiat">Fiat</option>
+    <option value="audi">Audi</option>
+  </select><br/><br/>
+
+  <!--data list-->
+  <input list="browsers" name="browser" >
+  <datalist id="browsers" >
+    <option value="IE"></option>
+    <option value="Firefox"></option>
+    <option value="Chrome"></option>
+    <option value="Opera"></option>
+  </datalist><br/><br/>
+
+  <!--output-->
+  <input type="range" id="a" name="a" value="50"> 100+
+  <input type="number" id="b" name="b" value="50"> =
+  <output name="x" for="a b"></output>
+  <br/><br/>
+
+  <!--Month-->
+  <label for="birthdaymonth">Brithday Month:</label>
+  <input type="month" id="birthdaymonth" name="birthdaymonth" >
+  <br/><br/>
+
+  <!--Week-->
+  <label for="myweek">Week:</label>
+  <input type="week" id="myweek" name="myweek" >
+  <br/><br/>
+
+  <!--Date-->
+  <label for="birthday">Brithday:</label>
+  <input type="date" id="birthday" name="birthday" >
+  <br/><br/>
+
+  <!--time-->
+  <label for="mytime">Time:</label>
+  <input type="time" id="mytime" name="mytime">
+  <br/><br/>
+
+  <!--Date time-->
+  <label for="birthdaytime">Birthday (date and time):</label>
+  <input type="datetime-local" id="birthdaytime" name="birthdaytime">
+  <br/><br/>
+
+  <!--Email-->
+  <label for="email">Enter your email:</label>
+  <input type="email" id="email" name="email">
+  <br/><br/>
+
+  <!--Search-->
+  <label for="gsearch">Enter search keyword:</label>
+  <input type="search" id="gsearch" name="gsearch" >
+  <br/><br/>
+
+  <!--Telphone-->
+  <label for="gsearch">Enter search keyword:</label>
+  <input type="tel" id="phone" name="phone" placeholder="123-45-678" 
+  pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"> <small>Format:123-45-678</small>
+  <br/><br/>
+
+  <!--Url-->
+  <label for="homepage">Enter url:</label>
+  <input type="url" id="homepage" name="homepage"> 
+  <br/><br/>
+
+  <input type="submit">
+</form>
+
+</body>
+</html>

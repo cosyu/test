@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>CSS-Overflow</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1" > <!--responsive feature-->
+        <style>
+       
+       .center{
+        margin: auto;/*To horizontally center a block element (like <div>)*/
+        width: 60%;
+        height: 300px;
+        border: 3px solid #73ad21;
+        padding: 5px;
+        text-align: center;/*content horizontally center*/
+        position: relative;
+       }
+
+       .center p{
+        position:absolute;/*the partner container should be relative */
+        top: 50%;
+        left:50%;
+        transform: translate(-50%, -50%);
+       }
+
+       .center2{
+        margin: auto;
+        display: flex;
+        justify-content: center;/*horizontally center*/
+        align-items: center;/*Vertically center*/
+        width: 60%;
+        height: 300px;
+        border: 3px solid green;
+       }
+
+           
+        </style>
+    </head>
+    <body>
+        
+      <h2>Center Align Elements</h2>
+<p>To horizontally center a block element (like div), use margin: auto;</p>
+
+<div class="center">
+  <p>Hello World!</p>
+</div>
+
+<div class="center2">
+  <p>Hello World!</p>
+</div>
+
+    </body>
+</html>
