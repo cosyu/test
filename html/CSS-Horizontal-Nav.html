@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>CSS-Navigation</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1" > <!--responsive feature-->
+        <style>
+          ul{
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow:auto;/*make the ul element be 100% width*/
+            background-color: #333;
+          }
+
+          li {
+            float: left;/*make it horizontal*/
+          }
+
+          li a{
+            display: block;
+            color:gray;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+          }
+
+          li a:hover{
+            background-color: #111;
+          }
+
+        </style>
+    </head>
+
+    <body>
+
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">News</a></li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="#">About</a></li>
+      </ul>
+
+    </body>
+</html>
