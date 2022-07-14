@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>CSS-Pagination</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1" > <!--responsive feature-->
+        <style>
+            .pagination{
+              display: inline-block;
+            }
+
+            .pagination a{
+              color: black;
+              float: left;
+              padding: 8px 16px;
+              text-decoration: none;
+              border-radius: 5px;
+            }
+
+            .pagination a.active{
+              background-color: #4caf50;
+              color: white;
+            }
+
+            .pagination a:hover:not(.active){/*exclude .active*/
+              background-color: #ddd;
+            }
+
+            .pagination a:first-child{
+              border-top-left-radius: 5px;
+              border-bottom-left-radius: 5px;
+              background-color: aqua;
+            }
+           
+        </style>
+    </head>
+
+    <body>
+
+          <div class="pagination">
+            <a href="#">&laquo;</a>
+            <a href="#">1</a>
+            <a href="#" class="active">2</a>
+            <a href="#">3</a>
+            <a href="#">4</a>
+            <a href="#">5</a>
+            <a href="#">6</a>
+            <a href="#">&raquo;</a>
+          </div>
+
+    </body>
+</html>

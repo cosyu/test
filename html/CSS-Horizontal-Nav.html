@@ -5,12 +5,20 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1" > <!--responsive feature-->
         <style>
+          body{
+            margin: 0;
+          }
+
           ul{
             list-style-type: none;
             margin: 0;
             padding: 0;
             overflow:auto;/*make the ul element be 100% width*/
             background-color: #333;
+            position: fixed;/*元素会被移出正常文档流，并不为元素预留空间，
+            而是通过指定元素相对于屏幕视口（viewport）的位置来指定元素位置。元素的位置在屏幕滚动时不会改变。*/
+            top:0;
+            width: 100%;
           }
 
           li {
@@ -19,7 +27,7 @@
 
           li a{
             display: block;
-            color:gray;
+            color:white;
             text-align: center;
             padding: 14px 16px;
             text-decoration: none;
@@ -28,6 +36,10 @@
           li a:hover{
             background-color: #111;
           }
+/*
+          .active{
+            background-color: #04aa6d;
+          }*/
 
         </style>
     </head>
@@ -38,8 +50,36 @@
         <li><a href="#">Home</a></li>
         <li><a href="#">News</a></li>
         <li><a href="#">Contact</a></li>
-        <li><a href="#">About</a></li>
+        <li><a href="#">About</a>
+        </li>
       </ul>
+
+      <div style="padding:20px;margin-top:30px;background-color:#1abc9c;height:1500px;">
+        <h1>Fixed Top Navigation Bar</h1>
+        <h2>Scroll this page to see the effect</h2>
+        <h2>The navigation bar will stay at the top of the page while scrolling</h2>
+      
+        <p>Some text some text some text some text..</p>
+        <p>Some text some text some text some text..</p>
+        <p>Some text some text some text some text..</p>
+        <p>Some text some text some text some text..</p>
+        <p>Some text some text some text some text..</p>
+        <p>Some text some text some text some text..</p>
+        <p>Some text some text some text some text..</p>
+        <p>Some text some text some text some text..</p>
+        <p>Some text some text some text some text..</p>
+        <p>Some text some text some text some text..</p>
+        <p>Some text some text some text some text..</p>
+        <p>Some text some text some text some text..</p>
+        <p>Some text some text some text some text..</p>
+        <p>Some text some text some text some text..</p>
+        <p>Some text some text some text some text..</p>
+        <p>Some text some text some text some text..</p>
+        <p>Some text some text some text some text..</p>
+        <p>Some text some text some text some text..</p>
+        <p>Some text some text some text some text..</p>
+        <p>Some text some text some text some text..</p>
+      </div>
 
     </body>
 </html>
