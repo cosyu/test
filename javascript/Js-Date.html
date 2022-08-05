@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>JS-Date</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1" > <!--responsive feature-->
+    </head>
+    <body>
+
+      <p id="demo"></p>
+
+      <script>
+        //ISO date, international standard, it is good to defind date with this standard,
+        //The other formats are not so well defined and might be browser specific.
+        let d = new Date("2022-07-18");
+        document.getElementById("demo").innerHTML = d;
+        
+        //short date format
+        let d2 = new Date("07/18/2022");
+        d2 = new Date();
+        document.getElementById("demo").innerHTML = d2;
+
+        //JavaScript counts months from 0 to 11. January is 0. December is 11.
+         //JavaScript counts days from 0 to 6. Sunday is 0. Saturday is 6.
+
+      </script>
+    </body>
+</html>

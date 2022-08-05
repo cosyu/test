@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>JS-BOM</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1" > <!--responsive feature-->
+    </head>
+    <body>
+        
+      <p id="demo"></p>
+
+      <script>
+        document.getElementById("demo").innerHTML = "Page path is: " + window.location.pathname;
+
+        //window.location.assign("https://www.w3schools.com");//reassign current page
+
+        document.getElementById("demo").innerHTML = `Browser width:${window.innerWidth} height:${window.innerHeight}`;
+        //window.history.back();
+        //window.history.forward();
+
+        //The window.navigator object contains information about the visitor's browser.
+        document.getElementById("demo").innerHTML = window.navigator.userAgent;
+
+        const t1 = window.setTimeout(function(){
+           //call some function
+           document.getElementById("demo").innerHTML = "set time out";
+        },3000);
+
+        window.clearTimeout(t1);
+
+        const t2 = window.setInterval(function(){
+          //call some function
+          let d = new Date();
+          document.getElementById("demo").innerHTML=
+          d.getHours() + ":" +
+          d.getMinutes() + ":" +
+          d.getSeconds();
+        },1000);
+
+        window.clearInterval(t2);
+
+      </script>
+    </body>
+</html>

@@ -24,6 +24,7 @@ public class LambdaTest {
             System.out.println(s);
         });
         List<String> list2 = list.stream().filter(s->Integer.valueOf(s)<3).collect(Collectors.toList());
+        //List<String> list2 = list.stream().filter(s->Integer.valueOf(s)<3).toList();
         list2.forEach(s->{
             System.out.println(s);
         });

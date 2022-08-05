@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>JS-Date</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1" > <!--responsive feature-->
+    </head>
+    <body>
+
+      <p id="demo"></p>
+
+      <script>
+
+        //We may have an array or object that we are working with, but we only need some of the items contained in these.
+        //Destructuring makes it easy to extract only what is needed.
+
+        //Destructing Arrays
+        const vehicles = ["mustang","f-150","expedition"];
+        const [car, truck, suv] = vehicles;//must 3 varilable
+        //const [car, , suv] = vehicles; //or leave out the truck but keep the comma
+        console.log(car+"-"+truck+"-"+suv);
+
+        //Destructuring Objects
+        const vehicleOne = {
+            brand: 'Ford',
+            model: 'Mustang',
+            type: 'car',
+            year: 2021, 
+            color: 'red'
+        };
+
+        const{brand,model} = vehicleOne;
+        console.log(brand+"-"+model);
+         
+        const vehicleTwo = {
+          brand: 'Ford',
+          model: 'Mustang',
+          type: 'car',
+          year: 2021, 
+          color: 'red',
+          registration: {
+            city: 'Houston',
+            state: 'Texas',
+            country: 'USA'
+          }
+        };
+
+        const {color, registration:{state}} = vehicleTwo;
+        console.log(color+"-"+state);
+        //console.log(registration);//registration is not defined
+      </script>
+    </body>
+</html>

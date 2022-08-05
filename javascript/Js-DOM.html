@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>JS-DOM</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1" > <!--responsive feature-->
+    </head>
+    <body>
+        
+      <p id="demo"></p>
+
+      <div id="div1">
+        <p id="p1">This is a paragraph.</p>
+        <p id="p2">This is another paragraph.</p>
+      </div>
+
+      <button type="button" id="btn" onclick="displayDate();">Button</button>  
+      <script>
+
+         //document.getElementById("demo").innerHTML = document.title;
+         const y = document.getElementsByTagName("h1");//return array(not null,but length is 0)
+         document.getElementById("demo").innerHTML = y == null;
+
+         const x = document.forms["frm1"]; //find form with id = "frm1"
+
+         document.getElementById("demo").style.color = 'blue';//change style
+
+         function displayDate() {
+            document.getElementById("demo").innerHTML = Date();
+         }
+         document.getElementById("btn").onclick = displayDate; //function can be a value / parameter
+
+         //The addEventListener() method allows you to add many events to the same element, without overwriting existing events
+         document.getElementById("btn").addEventListener("click",function(){alert("test");});
+
+         //document.getElementById("btn").removeEventListener("click",displayDate);
+
+         /*
+         There are two ways of event propagation in the HTML DOM, bubbling and capturing.
+          Event propagation is a way of defining the element order when an event occurs. If you have a <p> element inside a <div> element, and the user clicks on the <p> element, which element's "click" event should be handled first?
+          In bubbling the inner most element's event is handled first and then the outer: the <p> element's click event is handled first, then the <div> element's click event.
+          In capturing the outer most element's event is handled first and then the inner: the <div> element's click event will be handled first, then the <p> element's click event.
+
+          addEventListener(event, function, useCapture);//useCapture is default is false i.e use bubbling
+         */
+         
+         /*
+         According to the W3C HTML DOM standard, everything in an HTML document is a node:
+
+          The entire document is a document node
+          Every HTML element is an element node
+          The text inside HTML elements are       text nodes
+          Every HTML attribute is an attribute node (deprecated)
+          All comments are comment nodes
+
+          You can use the following node properties to navigate between nodes with JavaScript:
+
+            parentNode
+            childNodes[nodenumber]
+            firstChild
+            lastChild
+            nextSibling
+            previousSibling
+
+            let x = document.getElementById("id01").firstChild.nodeValue;
+            let x = document.getElementById("id01").childNodes[0].nodeValue;
+
+         */
+        
+            let x1 = document.getElementById("demo").nodeName;//p
+            let x2 = document.getElementById("demo").nodeType;//1
+            let x3 = document.getElementById("demo").firstChild.nodeValue;
+            //window.alert(x1+x2+x3);
+
+            //create & add node, add event listener to the new added element
+            const para = document.createElement("p");
+            const textNode = document.createTextNode("This is new...");
+            para.appendChild(textNode);
+            para.addEventListener("click", function(){alert("add dynamic element!");});
+            const parentEle = document.getElementById("div1");
+            //parentEle.appendChild(para);
+            const el1 = document.getElementById("p1");
+            parentEle.insertBefore(para,el1);//insert before the specify element
+          
+
+            //remove existing element
+            //document.getElementById("p1").remove();//remove() method does not work in older browsers
+            //parentEle.removeChild(el1);
+
+            //replace element
+            parentEle.replaceChild(para,el1);//replace el1 with para
+
+            //it return HTMLCollection Object(array like, but it is not Array,you cannot use array methods like valueOf(), pop(), push(), or join() on an HTMLCollection)
+            const myHTMLCollection = document.getElementsByTagName("p");
+            for (let i = 0; i < myHTMLCollection.length; i++) {
+              myHTMLCollection[i].style.color = "red";
+            }
+
+            //it return NodeList object which is almost the same as an HTMLCollection object
+            const myNodeList = document.querySelectorAll("p");
+
+
+      </script>
+    </body>
+</html>

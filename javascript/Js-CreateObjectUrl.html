@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>JS-Create Object URL</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1" > <!--responsive feature-->
+    </head>
+    <body>
+        
+      <p><input type="file" id="myFile" accept="image/*" /></p>
+      <p><b id="imgBlob">-</b></p>
+      <p><image id="image1" src="" /></p>
+      <script>
+        document.getElementById("myFile").addEventListener("change",function(){
+            let objUrl = window.URL.createObjectURL(this.files[0]);
+            document.getElementById("image1").src=objUrl;
+            document.getElementById("imgBlob").textContent=objUrl;
+        });
+      </script>
+    </body>
+</html>

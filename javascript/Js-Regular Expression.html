@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>JS-Regular Expression</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1" > <!--responsive feature-->
+    </head>
+    <body>
+
+      <p id="demo"></p>
+      <p id="demo2"></p>
+
+      <script>
+        let text = "Visit W3Schools";
+        // i for case-insensitive matching
+        // g for global match (find all matches rather than stopping after the first match)
+        //Do a global search for the string "w3schools" in a string
+        document.getElementById("demo").innerHTML = text.match(/w3schools/gi);//w3schools
+
+        //Do a global search for the character "3","s","c" in a string
+        document.getElementById("demo").innerHTML = text.match(/[3sc]/gi);//s,3,S,c,s
+
+        //Do a global search for the numbers 1 to 4 in a string
+        document.getElementById("demo").innerHTML = text.match(/[1-4]/gi);//3
+
+        //Do a global search for any of the specified alternatives (red|green)
+        let text2 = "re, green, red, green, gren, gr, blue, yellow";
+        document.getElementById("demo").innerHTML = text2.match(/(red|green)/gi);//green,red,green
+
+        // \d is to do a global search for digits in a string
+        let text3 = "Give 100%!";
+        document.getElementById("demo").innerHTML = text3.match(/\d/g);//1,0,0
+
+        // \s is to do a global search for whitespace characters in a string
+        let text4 = "Is this all there is?";
+        document.getElementById("demo").innerHTML = text4.match(/\s/g);//,,,,
+
+        //Do a global search for the hexadecimal number 0057 (W) in a string
+        let text5 = "Visit W3Schools. Hello World!";
+        document.getElementById("demo").innerHTML = text5.match(/\u0057/g);//W,W
+
+        //Do a global search for at least one "o" in a string
+        let text6 = "Hellooo World! Hello W3Schools!";
+        document.getElementById("demo").innerHTML = text6.match(/o+/g);//ooo,o,o,oo
+
+        //Do a global search for an "l", followed by zero or more "o" characters
+        document.getElementById("demo").innerHTML = text6.match(/lo*/g);//l,looo,l,l,lo,l
+
+        //Do a global search for a "1", followed by zero or one "0" characters
+        let text7 = "1,100 or 1000?";
+        document.getElementById("demo").innerHTML = text7.match(/10?/g);//1,10,10
+
+      </script>
+    </body>
+</html>

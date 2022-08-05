@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>JS-Typeof</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1" > <!--responsive feature-->
+    </head>
+    <body>
+        
+      <p id="demo"></p>
+
+      <script>
+
+        let t;
+        document.getElementById("demo").innerHTML = typeof t; //undefined
+
+        let t1 = null;
+        document.getElementById("demo").innerHTML = typeof t1; //object
+
+        let t2 = "";
+        document.getElementById("demo").innerHTML = typeof t2; //string
+
+        let t3;
+        if(typeof t3 !== "undefined" && t3 === null){
+          document.getElementById("demo").innerHTML = "t3 is null";
+        }
+
+        let t4 = function (){
+          return "hello";
+        }
+        document.getElementById("demo").innerHTML = typeof t4;//function
+
+      </script>
+    </body>
+</html>

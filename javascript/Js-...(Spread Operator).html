@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>JS-Date</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1" > <!--responsive feature-->
+    </head>
+    <body>
+
+      <p id="demo"></p>
+
+      <script>
+        //spread operator (...) allows us to quickly copy all or part of an existing array 
+        //or object into another array or object.
+        const num1 = [1,2,3];
+        const num2 = [4,5,6];
+        const num3 = [...num1,...num2];
+        console.log(num3);
+
+        //Assign the first and second items from numbers to variables and put the rest in an array:
+        const [one,two,...rest] = num3; // this uses Destructuring
+        console.log(one);
+        console.log(two);
+        console.log(rest);
+
+        const myVehicle = {
+          brand: 'Ford',
+          model: 'Mustang',
+          color: 'red'
+        }
+
+        const updateMyVehicle = {
+          type: 'car',
+          year: 2021, 
+          color: 'yellow'
+        }
+        //console.log(...myVehicle); //error
+        const myUpdatedVehicle  = {...myVehicle,...updateMyVehicle}// this uses Destructuring
+        console.log(myUpdatedVehicle);
+
+      </script>
+    </body>
+</html>

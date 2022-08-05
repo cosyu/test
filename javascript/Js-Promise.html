@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>JS-Promise</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1" > <!--responsive feature-->
+    </head>
+    <body>
+        
+      <p id="demo"></p>
+	  <p id="demo2"></p>
+
+      <script>
+        "use strict";
+
+        /*
+        JavaScript 是屬於同步的程式語言，因此一次僅能做一件事情，但遇到非同步的事件時，就會將非同步的事件移動到程式碼的最後方，
+        等到所有的原始碼運行完以後才會執行非同步的事件。
+        在 console 中依序的會出現的順序為：start end async
+        */
+        console.log("start");
+
+        setTimeout(()=>{
+          console.log("async");
+        },0);
+
+        console.log("end");
+
+        function myDisplayer(some) {
+          document.getElementById("demo").innerHTML = some;
+        }
+		
+        //create Promise object
+        //Promise 則是一個語法，專門用來處理非同步行為
+        let myPromise = new Promise((mySuccessFunction,myRejectFunction)=>{
+            let x = 1;
+
+            //call API code.... (e.g. use axios )
+            
+            //result
+            if(x == 1){
+              mySuccessFunction("success1");//the parameter is response data of API
+            }else{
+              myRejectFunction("error");
+            }
+        });
+
+		    //handle the response data
+        myPromise.then(
+          function(value){document.getElementById("demo2").innerHTML = value;},
+          function(error){document.getElementById("demo2").innerHTML = error;}
+        );
+
+        //another way to handle the response data
+        myPromise.then(data=>{
+          console.log(data);
+        }).catch(err =>{
+          console.log(err);
+        });
+
+        //鏈接方式, muliple lthen
+        function createPromise(num){
+          //The two functions (resolve and reject) are pre-defined by JavaScript.
+          return new Promise((reslove,reject)=>{ //reject is optional
+              num ? reslove(`${num},success`) : reject(`fail`);
+          });
+        }
+
+        createPromise(0)
+          .then(data =>{  /*使用 then 接收失敗：then 中的兩個函式必定執行其中一個（onFulfilled, onRejected），可以用此方式確保所有的鏈接都能夠被執行。*/
+            console.log(data);
+            return createPromise(2);
+          }, failData =>{
+            console.log(failData);
+            return createPromise(2);
+          })
+          .then(data => {
+            console.log(data);
+            return createPromise(0);// 這個階段會進入 catch
+          })
+          .then(data => {
+            console.log(data);
+            return createPromise(3);// 由於上一個階段結果是 reject，所以此段不執行
+          })
+          .catch(err => {
+            console.log(err);
+          })
+          .finally(()=>{
+            console.log("finally");
+          });
+
+          //Promise.all
+          //透過陣列的形式傳入多個 promise 函式，在全部執行完成後回傳陣列結果，陣列的結果順序與一開始傳入的一致
+          let p = Promise.all([createPromise(1),createPromise(1)]).then(res=>{
+            console.log(res);//['1,success', '2,success']
+          });
+          console.log(p);
+
+          //Promise.race
+          //透過陣列的形式傳入多個 promise 函式，在全部執行完成後回傳單一結果，結果為第一個運行完成的，以下範例來說就會回傳 promise(1) 的結果
+          Promise.race([createPromise(1),createPromise(1)]).then(res=>{
+            console.log("race result: "+res);//['1,success']
+          });
+
+        //---------------------
+
+        //async makes a function return a Promise object
+        async function myFunction(){
+          return "response data";
+        }
+      
+        /* it equals to this function:
+
+        function myFunction() {
+          return Promise.resolve("response data");
+        }
+        */
+
+        myFunction().then(function(value){myDisplayer("seccsss:"+value);},
+            function(error){myDisplayer("fail:"+error);});
+            
+
+        //The await keyword can only be used inside an async function.
+        async function myDisplay(){
+          //The two functions (resolve and reject) are pre-defined by JavaScript.
+          //We will not create them, but call one of them when the executor function is ready.
+          let myPromise = new Promise(function(reslove,reject){
+            //reslove("success1");
+            window.setTimeout(function(){
+              reslove("success1");
+            },3000);
+          });
+          
+          // await before a function makes the function wait for a promise, 
+          // this example will wait for 3s to display reslove data
+          document.getElementById("demo").innerHTML = await myPromise; 
+        }
+
+        myDisplay();
+
+      </script>
+    </body>
+</html>

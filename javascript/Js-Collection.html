@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>JS-Collection</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1" > <!--responsive feature-->
+    </head>
+    <body>
+
+      <p id="demo"></p>
+      <p id="demo2"></p>
+
+      <script>
+
+        //set, a collection of unique values
+        const letters = new Set(["a","b","c"]);
+        const letters2 = new Set();
+        letters2.add("a");
+        letters2.add("b");
+        let text = "";
+        letters2.forEach(function(value){
+          text += value;
+        });
+        for(let x of letters2.values()){
+          text += x;
+        }
+        document.getElementById("demo").innerHTML = text;
+
+        //map
+        const fruits = new Map([
+          ["apples",100],
+          ["banana",200],
+          ["organge",300]
+        ]);
+        const fruits2 = new Map();
+        fruits2.set("apples",100);
+        fruits2.set("banana",200);
+        fruits2.set("organge",300);
+
+        let text2 = "";
+        fruits.forEach(function(value,key){
+          text2 += key + "-" + value;
+        });
+        let text3 = "";
+        for(const x of fruits.entries()){
+          text3 += x+"-";
+        }
+        document.getElementById("demo").innerHTML = text3;
+
+      </script>
+    </body>
+</html>

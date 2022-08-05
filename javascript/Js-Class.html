@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>JS-Class</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1" > <!--responsive feature-->
+    </head>
+    <body>
+        
+      <p id="demo"></p>
+
+      <script>
+        "use strict";
+        class Car{
+          constructor(name,year){
+            this.name = name;
+            this.year = year;
+          }
+
+          age(){
+            let date = new Date();
+            return date.getFullYear() - this.year;
+          }
+
+          setYear(year){
+            this.year = year;
+          }
+
+          static hello(){ // static method
+            return "hello!";
+          }
+        }
+
+        class Model extends Car{ // properties/method will be extended from super class
+          constructor(name,year,mod){
+            super(name,year);
+            this.mod = mod;
+          }
+          show(){
+            return  `Name:${this.name}+" "+Year:${this.year}+" "+Model:${this.mod}`;
+          }
+
+        }
+
+        let myCar = new Car("Ford",2014);
+        myCar.setYear(2015);
+        document.getElementById("demo").innerHTML = myCar.age();
+
+        let myCar2 = new Model("Ford",2014,"Mustang");
+        myCar2.setYear(2016);
+        document.getElementById("demo").innerHTML = myCar2.show();
+        document.getElementById("demo").innerHTML = Model.hello();
+      </script>
+    </body>
+</html>

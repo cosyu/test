@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>JS-CallBack</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1" > <!--responsive feature-->
+    </head>
+    <body>
+        
+      <p id="demo"></p>
+
+      <script>
+        "use strict";
+
+        //callback functions are always used for aysnc
+        function myDisplayer(some) {
+          document.getElementById("demo").innerHTML = some;
+        }
+
+        function myCal(num1,num2,myCallbackFunction){ 
+            let sum = num1 + num2;
+            myCallbackFunction(sum);
+        }
+
+        myCal(5,5,myDisplayer);// function can be a parameter of another function in JS
+
+        function myDisplayer2() {
+          document.getElementById("demo").innerHTML = "test";
+        }
+
+        //function will be called after 3s
+        window.setTimeout(function(){
+           //call some function
+           myDisplayer("hello");
+        },3000);
+
+        //or like this,
+        window.setTimeout(myDisplayer2,5000);
+
+        //function will be called every second
+        /*
+        window.setInterval(function(){
+          //call some function
+          let d = new Date();
+          document.getElementById("demo").innerHTML=
+          d.getHours() + ":" +
+          d.getMinutes() + ":" +
+          d.getSeconds();
+        },1000);
+        */
+
+
+
+
+      </script>
+    </body>
+</html>

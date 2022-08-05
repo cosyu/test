@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>JS-Arrow Function</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1" > <!--responsive feature-->
+    </head>
+    <body>
+        
+      <p id="demo"></p>
+
+      <script>
+        //Arrow functions allow us to write shorter function syntax
+        let hello = () =>{ //function is also a variable in JS
+          document.getElementById("demo").innerHTML = this;//represents the owner of the function,i.e. window
+          return "hello world!";
+        }
+		console.log(hello());
+
+        let hello2 = (val) =>{
+          return "hello " + val;
+        }
+		console.log(hello2("test"));
+
+		let hello3 = () => "hello world!";//return string
+		console.log(hello3());
+
+		let hello4 = () => ("hello world");//return string
+		console.log(hello4());
+		
+		/*
+		const updateColor = () =>{
+			setCar((prevState) =>{ //create anonymous function, prevState is function parameter(car object)
+				console.log(prevState);
+				//change the property of object, it will case re-render 
+				return {...prevState,color:"blue",year:"1970"} //...preState means use all properties(may be many) of the object, you can update the specify property.e.g. color:"bule"
+			});
+		}*/
+		
+		const array1 = [1, 4, 9, 16];
+		
+		const map1 = array1.map((x) => (x * 2)); // this is a arrow function, x is parameter, for one statement use (), return number for each value
+		console.log(map1);
+
+		const map4 = array1.map((x) => ({"id":x,"name":x*2}));//return object for each value
+		console.log(map4);
+		
+		const map2 = array1.map((x) => { // this is a arrow function, x is parameter, for mutiples statements use {}
+			console.log(x);
+			return x * 3;
+		});
+		console.log(map2);
+		
+		const map3 = array1.map(x => { // this is a arrow function, x is parameter(not use ()), for mutiples statements use {}
+			return x * 3;
+		});
+		console.log(map3);
+
+        //document.getElementById("demo").innerHTML = hello2("jason");
+        window.addEventListener("load",hello);//add to window load event
+
+      </script>
+    </body>
+</html>

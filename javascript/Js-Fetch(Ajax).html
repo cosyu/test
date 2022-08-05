@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>JS-Fetch</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1" > <!--responsive feature-->
+    </head>
+    <body>
+        
+      <p id="demo"></p>
+
+      <script>
+
+        const url = "https://randomuser.me/api/";
+
+        const formData = new FormData();
+        const fileField = document.querySelector("input[type='file']");
+/*
+        formData.append('username', 'abc123');
+        formData.append('avatar', fileField.files[0]);*/
+
+        window.fetch(url,{
+          method : "PUT",
+          //body is only for Non-GET method
+          //body : formData,
+          /*body: JSON.stringify({
+            p1: "Parameter1 Value",
+            p2: "Parameter2 Value"
+          }),*/
+          Headers : {
+            "Content-Type":"application/json"
+          }
+        })
+        .then((response)=>{
+          alert(response.status)
+          console.log(response);
+          return response.json();
+        })
+        .then((jsonData)=>{
+          console.log(jsonData);
+          //alert(jsonData.info.seed);
+        })
+        .catch((err)=>{
+          console.log("fetch error2:",err);
+        });
+        
+      </script>
+    </body>
+</html>

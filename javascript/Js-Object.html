@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>JS-Object</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1" > <!--responsive feature-->
+    </head>
+    <body>
+ 
+      <p id="demo"></p>
+      <p id="demo2"></p>
+
+      <script>
+
+        "use strict";
+        const person = {
+          firstName: "John",
+          lastName : "Doe",
+          lang : "Chinese",
+          id:5566,
+          fullName : function(){ //function can be property of object
+            return this.firstName + " " + this.lastName;
+          },
+          get fullName2(){ //getter
+            return this.firstName + " " + this.lastName;
+          },
+          set setFirstName(firstName){ //setter
+            this.firstName = firstName;
+          }
+        };
+
+        person.setFirstName = "Jason";
+        person.lastName = "Yu";
+        person.age = 36;
+        person.nationality = function(){
+          return "Chinese";
+        }
+        
+        //change the property value or add property
+        Object.defineProperty(person,"lang",{value:"English"});
+        //define a getter
+        Object.defineProperty(person,"fullName3",{
+          get : function(){
+            return this.firstName + " " + this.lastName;
+          }
+        });
+
+        document.getElementById("demo").innerHTML=person.firstName;
+        document.getElementById("demo").innerHTML=person.fullName();//call function
+        document.getElementById("demo").innerHTML=person.fullName2;//call getter
+        document.getElementById("demo").innerHTML=person.nationality;//function(){ return "Chinese"; }
+        document.getElementById("demo").innerHTML=person.nationality();//Chinese
+        document.getElementById("demo").innerHTML=person.lang;//English
+        document.getElementById("demo").innerHTML=Object.getOwnPropertyNames(person);//list all properties
+        document.getElementById("demo").innerHTML=Object.keys(person);//list all properties
+        document.getElementById("demo").innerHTML=person.fullName3;//call getter
+      </script>
+    </body>
+</html>

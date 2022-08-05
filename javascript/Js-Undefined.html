@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>JS-Typeof</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1" > <!--responsive feature-->
+    </head>
+    <body>
+        
+      <p id="demo"></p>
+
+      <script>
+
+        function test(t) {
+  
+		  if(typeof t === 'undefined'){
+			console.log("yes,typeof is undefined");
+		  }
+		 
+		  if (t === undefined) {
+			return 'Undefined value!';
+		  }
+		  return t;
+		}
+
+		let x;
+
+		console.log(test(x));
+
+      </script>
+    </body>
+</html>

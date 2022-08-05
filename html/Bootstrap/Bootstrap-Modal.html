@@ -8,12 +8,17 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
         <style>
         </style>
+		<script>
+			function myFunction(){
+				window.alert("click");
+			}
+		</script>
     </head>
     
     <body>
       <div class="container-fluid mt-3">
           <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                data-bs-target="#modal1" >
+                data-bs-target="#modal1" onclick="myFunction()" >
             Open modal
           </button>
 

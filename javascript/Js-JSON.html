@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>JS-JSON</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1" > <!--responsive feature-->
+    </head>
+    <body>
+        
+      <p id="demo"></p>
+      <p id="demo2"></p>
+
+      <script>
+       let text = '{"employees":[' +
+'{"firstName":"John","lastName":"Doe" },' +
+'{"firstName":"Anna","lastName":"Smith" },' +
+'{"firstName":"Peter","lastName":"Jones" }]}';
+
+        let text2 = '["John", "Peter", "Sally", "Jane"]';
+
+        const obj = JSON.parse(text);//parse string into JSON object
+        document.getElementById("demo").innerHTML = obj.employees[1].firstName+" "+obj.employees[1].lastName;
+        //window.alert(typeof JSON.parse(text2));
+        document.getElementById("demo2").innerHTML = JSON.parse(text2);
+
+        const obj2 = {name: "John", age: 30, city: "New York"};
+        document.getElementById("demo").innerHTML = JSON.stringify(obj2);//Convert a JavaScript object into a string
+        const arr = ["John", "Peter", "Sally", "Jane"];
+        document.getElementById("demo").innerHTML = JSON.stringify(arr);//["John","Peter","Sally","Jane"]
+        const obj3 = {name: "John", age: function () {return 30;}, city: "New York"};
+        document.getElementById("demo").innerHTML = JSON.stringify(obj3);// function will remove any functions from a JavaScript object, both the key and the value
+
+      </script>
+    </body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>JS-Loop</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1" > <!--responsive feature-->
+    </head>
+    <body>
+
+      <p id="demo"></p>
+      <p id="demo2"></p>
+
+      <script>
+        //for in
+        const person = {fname:"John",lname:"Doe",age:25};
+        let text = "";
+        let t1 = "";
+        for(let x in person){
+          t1 += x;
+          text += person[x];//for loop property
+        }
+        document.getElementById("demo").innerHTML = text;//JohnDoe25
+        //document.getElementById("demo2").innerHTML = t1;//fnamelnameage
+
+        let text1 = "";
+        const numbers = [45, 4, 9, 16, 25];
+        for(let x in numbers){
+          text1 += numbers[x];//for loop index
+        }
+        document.getElementById("demo").innerHTML = text1;
+
+        //foreach
+        let text2 = 0;
+        numbers.forEach(myFunction);
+
+        function myFunction(value,index,array){
+            text2 += value;
+        }
+        document.getElementById("demo").innerHTML = text2;
+
+        //for
+        let text3 = 0;
+        for(let i=0;i<numbers.length;i++){
+          text3 += numbers[i];
+        }
+        document.getElementById("demo").innerHTML = text2;
+
+        //for of
+        const cars = ["BMW", "Volvo", "Mini"];
+        let text4 = "";
+        for(let x of cars){
+          text4 += x;//for loop item
+        }
+        document.getElementById("demo").innerHTML = text4;
+
+        const fruits3 = new Map([
+          ["apple",100],
+          ["banana",200],
+          ["organge",300]
+        ]);
+        let text5 = "";
+        for(let x of fruits3){
+          text5 += x+"<br>";
+        }
+        document.getElementById("demo").innerHTML = text5;
+
+        //while
+        let i = 0;
+        while(i<10){
+          //here
+          break;
+        }
+
+        do{
+          //code here
+          break;
+        }while(i<10);
+
+
+      </script>
+    </body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>JS-Module</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1" > <!--responsive feature-->
+    </head>
+    <body>
+        
+      <p id="demo"></p>
+
+      <script type="module">
+
+        //modules allow you to break up your code into separate files
+        //use module,Modules only work with the HTTP(s) protocol.  A web-page opened via the file:// protocol cannot use import / export.
+        import {name,age} from "./person.js";//import property from module file
+
+        let text = "My name is " + name + ", I am " + age + ".";
+
+        document.getElementById("demo").innerHTML = text;
+      </script>
+    </body>
+</html>

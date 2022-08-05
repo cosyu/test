@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>JS-Array</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1" > <!--responsive feature-->
+    </head>
+    <body>
+        
+      
+      <p id="demo"></p>
+      <p id="demo2"></p>
+
+
+      <script>
+
+        "use strict";
+        const arr1 = [];//create array
+        arr1[0] = "a";//assign value
+        arr1[1] = "b";//JavaScript does NOT support arrays with named indexes.
+        //document.getElementById("demo2").innerHTML = arr1;
+
+        const points = [40,100,1,5,25,10];
+        //document.getElementById("demo").innerHTML = myArrayMax(points);
+        document.getElementById("demo").innerHTML = myArrayCompare(points);
+
+        //find min & max
+        function myArrayMax(arr){
+            return Math.max.apply(null,arr);//is equivalent to Math.max(40,100,1,5,25,10)
+            //to find min, use Math.min.apply
+        }
+
+        //the fast soulition is to loop through and array comparing each value with
+        //the hightest value
+        function myArrayCompare(arr){
+            let len = arr.length;
+            let max = -Infinity;//min value in JS, Infinity is max value in JS
+            while(len--){
+              if(arr[len]>max){
+                max = arr[len];
+              }
+            }
+            return max;
+        }
+
+        //recognize an array
+        const fruits = ["Banana","Organge","Apple"];
+        let type = typeof fruits;//return object as array is object in JS
+        document.getElementById("demo").innerHTML = type;
+        document.getElementById("demo").innerHTML = Array.isArray(fruits);//true
+        document.getElementById("demo").innerHTML = fruits instanceof Array;//true
+
+        //Adding elements with high indexes can create undefined "holes" in an array
+        fruits[10] = "Mango";
+
+        //toString
+        document.getElementById("demo").innerHTML = fruits.toString();//Banana,Organge,Apple
+
+        //compare
+        points.sort(function(a,b){
+            return a-b;
+        });
+        document.getElementById("demo").innerHTML = points;
+
+        //sotring object array
+        const cars = [
+          {type:"Volvo",year:2016},
+          {type:"Saab",year:2001},
+          {type:"BMW",year:2010}
+        ];
+        document.getElementById("demo").innerHTML = cars[0];//it will display object
+        document.getElementById("demo").innerHTML = cars[0].type+" "+cars[0].year;//it will display property of object
+        
+        //compare by property of object , and for loop to display
+        cars.sort(function(a,b){
+          return a.year - b.year;
+        });
+
+        let carsContent = ""; // it is good partice to assign value to variable when it is declared
+        for(let i=0;i<cars.length;i++){
+          carsContent += cars[i].type + "-" + cars[i].year + "<br/>";
+        }
+        document.getElementById("demo").innerHTML = carsContent;
+
+        //map method
+        const n1 = [45,4,9,16,25];
+        function myFunction(value,index,array){
+          return value * 2;// perform a function on each array element.
+        }
+        document.getElementById("demo").innerHTML = n1.map(myFunction);
+
+        //filter
+        function myFunction2(value,index,array){
+          return value > 18;//return new array with values > 18
+        }
+        document.getElementById("demo").innerHTML = n1.filter(myFunction2);
+		console.log("filter function:" + n1.filter(myFunction2));
+
+        //every
+        function myFunction3(value,index,array){
+          return value > 18;//check if all array values are larger than 18
+        }
+        document.getElementById("demo").innerHTML = n1.every(myFunction3);
+
+        //some
+        function myFunction4(value,index,array){
+          return value > 18;//any values are larger than 18, return true, otherwise, return false
+        }
+        document.getElementById("demo").innerHTML = n1.some(myFunction4);
+		console.log("some function:" + n1.some(myFunction4));
+
+        const n2 = [];
+        n2["a"] = 45;//JavaScript does NOT support arrays with named indexes
+        n2["b"] = 4;
+        //document.getElementById("demo2").innerHTML = n2.some(myFunction4);
+
+        //find
+        function myFunction5(value,index,array){
+          return value > 18;//find the first value > 18
+        }
+        document.getElementById("demo").innerHTML = n1.find(myFunction5);
+
+        //from
+        document.getElementById("demo").innerHTML = Array.from("ABCDEFD");//A,B,C,D,E,F,D
+
+        //key && entity
+        const fruits2 = ["Banana", "Orange", "Apple", "Mango"];
+        const keys = fruits2.keys();
+        let textKey = "";
+        for(let x of keys){
+          textKey += x + "<br/>";
+        }
+        document.getElementById("demo").innerHTML = textKey;//0 1 2 3
+        const textEntity = fruits2.entries();
+
+        for(let x of textEntity){
+          document.getElementById("demo").innerHTML += x;//0,Banana1,Orange2,Apple3,Mango
+        }
+
+
+      </script>
+    </body>
+</html>

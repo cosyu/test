@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>JS-String</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1" > <!--responsive feature-->
+    </head>
+    <body>
+       
+      <h1>My Javascript Page</h1>
+      <p id="demo"></p>
+      <p id="demo2"></p>
+
+      <script>
+
+        let str = "Apple, Banana, Kiwi";
+        let part = str.slice(2,6);
+        document.getElementById("demo").innerHTML = part;
+
+        //match
+        let text = "The rain in SPAIN stays mainly in the plain";
+        document.getElementById("demo").innerHTML = text.match(/ain/g); // g for global search, it will return array if found
+
+        document.getElementById("demo").innerHTML = text.match(/ain/gi)// i for case-insensitive search, it will return array if found
+
+        //string template,use back-ticks (``) rather than the quotes
+        let text2 = `He's often called "Johnny"`;
+        document.getElementById("demo").innerHTML = text2;
+
+        let firstName = "John";
+        let lastName = "Doe";
+        document.getElementById("demo").innerHTML = `Welcome ${firstName},${lastName}`;//allow variables in string
+
+        let price = 10;
+        let vat = 0.25;
+        document.getElementById("demo").innerHTML = `Total: ${(price * (1+vat)).toFixed(2)}`;//allow expressions in string
+
+      </script>
+    </body>
+</html>

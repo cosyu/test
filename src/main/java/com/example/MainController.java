@@ -295,7 +295,8 @@ public class MainController {
     @GetMapping("/locale")
     public String locale(HttpServletRequest request, HttpServletResponse response) throws Exception{
         Locale locale = LocaleContextHolder.getLocale();
-        return messageSource.getMessage("current.locale", null, locale);
+        //args is for parameter in the message property file
+        return messageSource.getMessage("current.locale", new String[] {"value1","value2"}, locale);
     }
 
     //@PostMapping("/doLogin")
@@ -326,6 +327,32 @@ public class MainController {
         request.getSession().removeAttribute("username");
         request.getSession().invalidate();
         return "logout";
+    }
+
+    @GetMapping("/resSts1")
+    public ResponseEntity<String> resStatus1(){
+
+        return new ResponseEntity<>("completed", HttpStatus.OK);//return with HttpStatus
+    }
+
+    @GetMapping("/resSts2")
+    @ResponseStatus(code = HttpStatus.ACCEPTED) //return with HttpStatus
+    public String resStatus2(){
+
+        return "completed";
+    }
+
+    @GetMapping("/resSts4")
+    @ResponseStatus(code = HttpStatus.ACCEPTED)//specify response HttpStatus even the function no return value
+    public void resStatus4(){
+
+    }
+
+    @GetMapping("/resSts3")
+    @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason = "fail,internal server error")//return with HttpStatus,reason is only for error
+    public String resStatus3(){
+
+        return "completed";
     }
 
 }
