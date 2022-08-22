@@ -319,7 +319,7 @@ public class MainController {
         return "Current username is:"+userName+" -session id:"+request.getSession().getId()+"-csrfToken: "+csrfToken;
     }
 
-    @GetMapping("/logout")
+    @GetMapping("/doLogout")
     public String logout(HttpServletRequest request, HttpServletResponse response){
 
         /*destroy current session, it will create another new session
@@ -327,6 +327,12 @@ public class MainController {
         */
         request.getSession().removeAttribute("username");
         request.getSession().invalidate();
+        return "do logout";
+    }
+
+    @GetMapping("/logout")
+    public String logout(){
+
         return "logout";
     }
 
