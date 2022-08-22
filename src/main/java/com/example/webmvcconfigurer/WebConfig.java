@@ -1,5 +1,6 @@
 package com.example.webmvcconfigurer;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.LocaleResolver;
@@ -8,6 +9,8 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+import org.zalando.problem.ProblemModule;
+import org.zalando.problem.violations.ConstraintViolationProblemModule;
 
 import java.util.Locale;
 
@@ -56,5 +59,14 @@ public class WebConfig implements WebMvcConfigurer {
         return lci;
     }
 
+    @Bean
+    public ObjectMapper objectMapper(){
+        ObjectMapper objectMapper = new ObjectMapper();
+        //for removing stackTrace of ResponseEntity<Problem> which is returned by ProblemHandling
+        //for detail, please refer to ControllerHandler.java
+        objectMapper.registerModules(new ProblemModule(),
+                new ConstraintViolationProblemModule());
+        return objectMapper;
+    }
 
 }

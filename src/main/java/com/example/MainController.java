@@ -20,6 +20,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -350,9 +351,8 @@ public class MainController {
 
     @GetMapping("/resSts3")
     @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason = "fail,internal server error")//return with HttpStatus,reason is only for error
-    public String resStatus3(){
-
-        return "completed";
+    public String resStatus3() throws Exception{
+        return "complete";
     }
 
 }

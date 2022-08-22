@@ -31,6 +31,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-redis")//for session repository to save session to Redis
     implementation("org.springframework.session:spring-session-data-redis")//for session
     implementation("org.springframework.boot:spring-boot-starter-security")//Spring application will perform authentication automatically once the Spring Security is added into application
+    implementation("org.springframework.boot:spring-boot-starter-aop")
 
     compileOnly("org.projectlombok:lombok:1.18.20")
     annotationProcessor("org.projectlombok:lombok:1.18.20")
@@ -50,6 +51,7 @@ dependencies {
     // https://mvnrepository.com/artifact/org.json/json
     implementation("org.json:json:20220320")
 
+    implementation("org.zalando:problem-spring-web:0.26.2")
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 //    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'

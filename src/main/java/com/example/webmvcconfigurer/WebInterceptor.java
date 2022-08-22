@@ -1,11 +1,14 @@
 package com.example.webmvcconfigurer;
 
+import com.example.controlleradvice.AppInvalidException;
+import com.example.controlleradvice.MyRuntimeException;
 import org.apache.http.client.utils.DateUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+import org.zalando.problem.Status;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +24,10 @@ public class WebInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
                              Object handler) throws Exception {
         System.out.println("Interceptor preHandler method is running !");
+//        if(true){
+//            throw new MyRuntimeException("exception form WebInterceptor...");
+//            //throw new AppInvalidException(301, Status.METHOD_NOT_ALLOWED,"test error message");
+//        }
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
         HttpServletRequest httpServletRequest = requestAttributes.getRequest();
 
@@ -73,12 +80,12 @@ public class WebInterceptor implements HandlerInterceptor {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        //System.out.println("Interceptor postHandler method is running !");
+        System.out.println("Interceptor postHandler method is running !");
     }
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        //System.out.println("Interceptor afterCompletion method is running !");
+        System.out.println("Interceptor afterCompletion method is running !");
     }
 
     public HttpServletRequest getRequest() {

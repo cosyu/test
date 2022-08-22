@@ -23,6 +23,7 @@ public class HttpSessionConfig implements BeanClassLoaderAware {
     private ClassLoader loader;
 
     //this bean is used to make the values saved in Redis seems meaningful
+/*
     @Bean
     public RedisSerializer<Object> springSessionDefaultRedisSerializer() {
         ObjectMapper mapper = new ObjectMapper();
@@ -32,7 +33,7 @@ public class HttpSessionConfig implements BeanClassLoaderAware {
         // (java.util.LinkedHashMap is in module java.base of loader 'bootstrap';
         // org.springframework.security.web.csrf.CsrfToken is in unnamed module of loader 'app')
         return new GenericJackson2JsonRedisSerializer(mapper);
-    }
+    }*/
 
     //this bean is used by RedisSerializer above, it will throw JsonParseException if this bean is missing
     @Bean
