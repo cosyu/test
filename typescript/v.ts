@@ -437,3 +437,4 @@ let var4 : any = var2;console.log(var4);//no error, unknow can be assigen to any
 //let var5 : boolean = var2;//Type 'unknown' is not assignable to type 'boolean'
 
 //console.log(var2.length);//the TS compiler won't allow any operation on values typed unknown
+

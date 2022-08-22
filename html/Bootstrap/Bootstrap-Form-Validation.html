@@ -12,16 +12,17 @@
     
     <body>
         <div class="container-fuild mt-3 px-3">
-            <form action="#" method="post" class="was-validated"><!--enable validation behaviour-->
+            <form action="#" method="post" class="was-validated" novalidate><!--was-validated enable validation behaviour, novalidate remove validation message-->
                 <!--email-->
                 <div class="mb-3 mt-3">
                     <label for="email" class="form-label">Email:</label>
                     <!--form-control-lg is used to make the input text larger-->
-                    <input type="email" class="form-control form-control-lg" 
-                    id="email" name="email" placeholder="Enter Email" required>
+                    <input type="text" class="form-control form-control-lg" 
+                    id="email" name="email" placeholder="Enter Email" required pattern="[A-Za-z0-9]{7,8}" >
                     <div class="valid-feedback">Valid.</div>
                     <div class="invalid-feedback">Please fill out this field</div>
                 </div>
+				
 
                 <!--password-->
                 <div class="mb-3">

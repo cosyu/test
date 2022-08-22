@@ -307,11 +307,18 @@ const MyCallBack = () =>{
 
 root.render(<MyCallBack />);
 
-
+//define the customer object
+let isLoading2: { [reqId: string]: boolean };//isLoading2 is object, reqId is key name , typeof is string, value is boolean
+isLoading2 = {reqId:true,reqId2:true,"reqId3":true,123:true};
+console.log(isLoading2);
+Object.entries(isLoading2).map(([k, v]) => {
+    console.log("key typeof:" + typeof k + " value:" + k);
+    console.log("value typeof:" + typeof v + " value:" + v);
+})
 
 /**
 
-useNavigate
+study ApplicationContext of TSW
 
 useForm,useRef
 
