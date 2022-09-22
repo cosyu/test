@@ -281,7 +281,7 @@ const MyCallBack = () =>{
   };
 
 
-  const addTodo = useCallback(()=>{
+  const addTodo = useCallback(()=>{ //defind a function with callback
     console.log("use call back run");
     setTodos((t)=> [...t,"New Todo"]);
   },[todos]);//The useCallback Hook only runs when one of its dependencies update, i.e. [todos]
@@ -318,7 +318,6 @@ Object.entries(isLoading2).map(([k, v]) => {
 
 /**
 
-study ApplicationContext of TSW
 
 useForm,useRef
 

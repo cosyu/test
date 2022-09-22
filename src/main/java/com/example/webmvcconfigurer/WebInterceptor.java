@@ -23,7 +23,7 @@ public class WebInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
                              Object handler) throws Exception {
-        System.out.println("Interceptor preHandler method is running !");
+        //System.out.println("Interceptor preHandler method is running !");
 //        if(true){
 //            throw new MyRuntimeException("exception form WebInterceptor...");
 //            //throw new AppInvalidException(301, Status.METHOD_NOT_ALLOWED,"test error message");
@@ -35,14 +35,14 @@ public class WebInterceptor implements HandlerInterceptor {
             //System.out.println("request equals to httpServletRequest");
         }
 
-        System.out.println("------get session-------");
+        System.out.println("\n\n------get session-------");
         HttpSession session = httpServletRequest.getSession();
         System.out.println("session id:"+session.getId());
         Enumeration<String> attNames = session.getAttributeNames();
         while (attNames.hasMoreElements()){
             String name = attNames.nextElement();
             Object att = session.getAttribute(name);
-            System.out.println("session attribute:"+name+"-"+att);
+            System.out.println("session attribute:"+name+":"+att);
         }
         Date date1 = new Date(session.getLastAccessedTime());
         //System.out.println("session last access time:"+DateUtils.formatDate(date1));
@@ -50,42 +50,46 @@ public class WebInterceptor implements HandlerInterceptor {
         //System.out.println("session create time:"+DateUtils.formatDate(date2));
 
         //get header from request
-        System.out.println("------get header-------");
+        System.out.println("\n\n------get request header-------");
         Enumeration<String> headerNames =  httpServletRequest.getHeaderNames();
         //missing X-CSRF-TOKEN
         while (headerNames.hasMoreElements()){
             String name = headerNames.nextElement();
             String header = httpServletRequest.getHeader(name);
-            System.out.println(name+"-"+header);
+            System.out.println(name+":"+header);
+        }
+        System.out.println("\n\n------get host header from request-------");
+        Enumeration<String> hostHeader =  httpServletRequest.getHeaders("host");//get header values instead of header name
+        while (hostHeader.hasMoreElements()){
+            System.out.println(hostHeader.nextElement());
         }
 
         //String csrfInHeader = httpServletRequest.getHeader("X-CSRF-TOKEN");
-        System.out.println("------get cookie-------");
+        System.out.println("\n\n------get cookie-------");
         //get cookie from request
-        List<Cookie> retCookies = new ArrayList<>();
         Cookie[] cookies = httpServletRequest.getCookies();
         if (!ObjectUtils.isEmpty(cookies)) {
             for (Cookie cookie : cookies) {
                 //System.out.println(cookie);
-                //missing X-ACCESS-TOKEN
-                System.out.println(cookie.getName()+"-"+cookie.getValue());
-                if (cookie.getName().equals("X-ACCESS-TOKEN")) {
-                    retCookies.add(cookie);
+                System.out.println(cookie.getName()+":"+cookie.getValue());
+                if (cookie.getName().equals("customerId2")) {
+                    System.out.println("customerId2's detail:"+cookie.getMaxAge()+"-"+cookie.getDomain()+"-"+cookie.getPath());
                 }
             }
         }
+
 
         return true;
     }
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        System.out.println("Interceptor postHandler method is running !");
+       // System.out.println("Interceptor postHandler method is running !");
     }
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        System.out.println("Interceptor afterCompletion method is running !");
+        //System.out.println("Interceptor afterCompletion method is running !");
     }
 
     public HttpServletRequest getRequest() {

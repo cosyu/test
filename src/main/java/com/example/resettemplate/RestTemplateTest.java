@@ -34,11 +34,11 @@ public class RestTemplateTest {
 
         //Map<String, String> vars = Collections.singletonMap("hotel", "42");
         //call get
-        String result = restTemplate.getForObject("http://localhost:8080/index", String.class);
+        String result = restTemplate.getForObject("http://localhost:8090/index", String.class);
         System.out.println(result);
 
         //call post
-        String url = "http://localhost:8080/postUser";
+        String url = "http://localhost:8090/postUser";
         //JSONObject param = new JSONObject();
         //Map param = new HashMap();
         //param.put("name","jason");
@@ -52,7 +52,7 @@ public class RestTemplateTest {
         System.out.println(responseEntity.getBody());
 
         //Add header for post
-        UriComponents uriComponents = UriComponentsBuilder.fromHttpUrl("http://localhost:8080").
+        UriComponents uriComponents = UriComponentsBuilder.fromHttpUrl("http://localhost:8090").
                 path("/postJsonObject").build(true);
         URI uri = uriComponents.toUri();
 

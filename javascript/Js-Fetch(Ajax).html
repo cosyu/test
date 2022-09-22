@@ -12,6 +12,7 @@
       <script>
 
         const url = "https://randomuser.me/api/";
+        //const url = "https://api.github.com/users/shawnquinn";
 
         const formData = new FormData();
         const fileField = document.querySelector("input[type='file']");
@@ -20,7 +21,7 @@
         formData.append('avatar', fileField.files[0]);*/
 
         window.fetch(url,{
-          method : "PUT",
+          method : "GET",
           //body is only for Non-GET method
           //body : formData,
           /*body: JSON.stringify({
@@ -32,11 +33,13 @@
           }
         })
         .then((response)=>{
-          alert(response.status)
+          //alert(response.status)
+          console.log("response");
           console.log(response);
           return response.json();
         })
         .then((jsonData)=>{
+          console.log("jsonData");
           console.log(jsonData);
           //alert(jsonData.info.seed);
         })

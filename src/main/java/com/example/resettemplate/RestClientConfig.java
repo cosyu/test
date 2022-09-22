@@ -1,6 +1,10 @@
 package com.example.resettemplate;
 
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -11,6 +15,7 @@ import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +50,34 @@ public class RestClientConfig {
     @Bean("httpClient2") // it will create bean by Spring and used for clientHttpRequestFactory when the application is starting up
     public HttpClient httpClient(){
         return HttpClients.createDefault();
+    }
+
+    @Bean("okHttpClient") // it will create bean by Spring and used for clientHttpRequestFactory when the application is starting up
+    public OkHttpClient okHttpClient(){
+
+        OkHttpClient client = new OkHttpClient();
+        return client.newBuilder().addNetworkInterceptor(new LogInterceptor()).build();
+
+    }
+
+    //Interceptor for OkHttpClient
+    class LogInterceptor implements Interceptor {
+        @Override
+        public Response intercept(Chain chain) throws IOException {
+            Request request = chain.request();
+
+            long t1 = System.nanoTime();
+            log.debug(String.format("Sending request %s on %s%n%s",
+                    request.url(), chain.connection(), request.headers()));
+
+            Response response = chain.proceed(request);
+
+            long t2 = System.nanoTime();
+            log.debug(String.format("Received response for %s in %.1fms%n%s",
+                    response.request().url(), (t2 - t1) / 1e6d, response.headers()));
+
+            return response;
+        }
     }
 
     /*

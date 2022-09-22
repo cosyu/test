@@ -100,6 +100,19 @@ public class ControllerHandler implements ProblemHandling {
         * */
     }
 
+    @ExceptionHandler({Exception.class})
+    public ResponseEntity<Problem> handleException(Exception ex, NativeWebRequest request) {
+
+        HttpServletRequest req = request.getNativeRequest(HttpServletRequest.class);
+
+        ProblemBuilder builder = Problem.builder()
+                .with("message",ex.getMessage())
+                .with("path",(req != null ? req.getRequestURI() : ""));
+
+        return create(ex,builder.build(),request);
+
+    }
+
     /**
      * Post-process Problem payload to add the customer key for front-end if needed
      */

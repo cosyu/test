@@ -30,7 +30,8 @@ dependencies {
     //implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-data-redis")//for session repository to save session to Redis
     implementation("org.springframework.session:spring-session-data-redis")//for session
-    implementation("org.springframework.boot:spring-boot-starter-security")//Spring application will perform authentication automatically once the Spring Security is added into application
+    //Spring application will perform authentication automatically once the Spring Security is added into application
+    implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-aop")
 
     compileOnly("org.projectlombok:lombok:1.18.20")
@@ -52,6 +53,17 @@ dependencies {
     implementation("org.json:json:20220320")
 
     implementation("org.zalando:problem-spring-web:0.26.2")
+
+    implementation("com.squareup.okhttp3:okhttp:4.9.3")
+
+    implementation("net.sf.jasperreports:jasperreports:6.20.0")
+    implementation("com.lowagie:itext:2.1.7")//required dependency for Jasper
+    //if missing this library, it will throw java.lang.ClassNotFoundException: org.mozilla.javascript.EvaluatorException for Jasper
+    implementation("org.mozilla:rhino:1.7R4")
+    implementation("org.apache.poi:poi:5.2.2")//for export excel file by Jasper
+
+
+
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 //    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
