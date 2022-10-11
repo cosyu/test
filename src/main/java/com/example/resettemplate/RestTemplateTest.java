@@ -1,9 +1,8 @@
 package com.example.resettemplate;
 
 import com.example.MainApplication;
-import com.example.annotation.Child;
 import com.example.config.ApplicationContextProvider;
-import com.example.test.User;
+import com.example.domain.User;
 import org.json.JSONObject;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,8 +16,6 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.HashMap;
-import java.util.Map;
 
 @SpringBootApplication
 public class RestTemplateTest {

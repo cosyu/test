@@ -1,0 +1,214 @@
+yaml:
+  application:
+    Q24:
+      - APPROVE
+      - PROC
+      - REJECT
+      - RETURN
+      - COMPLETE
+    B05:
+      - SUBMIT
+      - COMPLETE
+      - REJECT
+    B06:
+      - SUBMIT
+      - APPROVE
+      - REJECT
+    B07:
+      - SUBMIT
+      - APPROVE
+      - REJECT
+    B08:
+      - SUBMIT
+      - APPROVE
+      - REJECT
+    B09:
+      - SUBMIT
+      - APPROVE
+      - REJECT
+    Q30:
+      - SUBMIT
+      - COMPLETE
+      - REJECT
+    Q31:
+      - SUBMIT
+      - COMPLETE
+      - REJECT
+    Q32:
+      - SUBMIT
+      - COMPLETE
+      - REJECT
+    Q33:
+      - SUBMIT
+      - COMPLETE
+      - REJECT
+    Q34:
+      - SUBMIT
+      - COMPLETE
+      - REJECT
+    Q35:
+      - SUBMIT
+      - COMPLETE
+      - REJECT
+    Q36:
+      - SUBMIT
+      - APPROVE
+      - REJECT
+    Q37:
+      - SUBMIT
+      - APPROVE
+      - REJECT
+    Q38:
+      - SUBMIT
+      - APPROVE
+      - REJECT
+    Q39:
+      - SUBMIT
+      - APPROVE
+      - REJECT
+    Q40:
+      - SUBMIT
+      - APPROVE
+      - REJECT
+    Q41:
+      - SUBMIT
+      - APPROVE
+      - REJECT
+    Q42:
+      - SUBMIT
+      - APPROVE
+      - REJECT
+    Q43:
+      - SUBMIT
+      - APPROVE
+      - REJECT
+    Q72:
+      - SUBMIT
+      - APPROVE
+      - REJECT
+    Q73:
+      - SUBMIT
+      - APPROVE
+      - REJECT
+    D03:
+      - SUBMIT
+      - AMEND
+      - VOID
+      - WITHDRAW
+  documentStatus:
+    P24:
+      - ISSUE
+      - CANCEL
+    C05:
+      - ISSUE
+      - EXPIRE
+      - CANCEL
+    C06:
+      - ISSUE
+      - EXPIRE
+      - CANCEL
+    C07:
+      - ISSUE
+      - EXPIRE
+      - CANCEL
+    C08:
+      - ISSUE
+      - CANCEL
+    C09:
+      - ISSUE
+      - CANCEL
+    C10:
+      - ISSUE
+      - CANCEL
+    C11:
+      - ISSUE
+      - CANCEL
+    P42:
+      - ISSUE
+      - EXPIRE
+      - CANCEL
+    P43:
+      - ISSUE
+      - EXPIRE
+      - CANCEL
+    P44:
+      - ISSUE
+      - CANCEL
+    P45:
+      - ISSUE
+      - CANCEL
+    P46:
+      - ISSUE
+      - CANCEL
+    P47:
+      - ISSUE
+      - CANCEL
+    P59:
+      - ISSUE
+      - EXPIRE
+      - CANCEL
+    P60:
+      - ISSUE
+      - EXPIRE
+      - CANCEL
+    P30:
+      - ISSUE
+      - EXPIRE
+      - CANCEL
+    P31:
+      - ISSUE
+      - EXPIRE
+      - CANCEL
+    P32:
+      - ISSUE
+      - EXPIRE
+      - CANCEL
+    P33:
+      - ISSUE
+      - EXPIRE
+      - CANCEL
+    P34:
+      - ISSUE
+      - EXPIRE
+      - CANCEL
+    P35:
+      - ISSUE
+      - EXPIRE
+      - CANCEL
+    P36:
+      - ISSUE
+      - EXPIRE
+      - CANCEL
+    P37:
+      - ISSUE
+      - EXPIRE
+      - CANCEL
+    P38:
+      - ISSUE
+      - EXPIRE
+      - CANCEL
+    P39:
+      - ISSUE
+      - EXPIRE
+      - CANCEL
+    P40:
+      - ISSUE
+      - EXPIRE
+      - CANCEL
+    P41:
+      - ISSUE
+      - EXPIRE
+      - CANCEL
+    P63:
+      - ISSUE
+      - EXPIRE
+      - CANCEL
+    P64:
+      - ISSUE
+      - EXPIRE
+      - CANCEL
+    P72:
+      - CANCEL
+    P73:
+      - CANCEL
+

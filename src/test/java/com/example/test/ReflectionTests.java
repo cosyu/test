@@ -1,8 +1,6 @@
 package com.example.test;
 
-import com.example.pattern.proxy.Agent;
-import com.example.pattern.proxy.IBuyHouse;
-import com.example.pattern.proxy.Tenant;
+import com.example.domain.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -31,7 +29,7 @@ public class ReflectionTests {
         User user = new User();
         Class clazz4 = user.getClass();
         Class clazz5 = User.class;
-        Class clazz6 = Class.forName("com.example.test.User");
+        Class clazz6 = Class.forName("com.example.domain.User");
         //clazz4 == clazz5 == clazz6
         System.out.println(clazz4);
         System.out.println(clazz5);

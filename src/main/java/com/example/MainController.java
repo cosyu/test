@@ -1,12 +1,19 @@
 package com.example;
 
 import com.example.async.AsyncClass;
+import com.example.config.ApplicationContextProvider;
 import com.example.report.Client;
 import com.example.report.ClientByCountry;
-import com.example.test.User;
+import com.example.report.P1ResponseDTO;
+import com.example.domain.User;
+import com.example.retry.MyRetryable;
+import com.example.retry.RemoteService;
 import com.example.utils.EncryptUtils;
 import com.example.utils.FileUtils;
 import com.example.utils.JSONUtils;
+import com.example.webmvcconfigurer.MyContentCachingRequestWrapper;
+import com.example.yaml.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import net.sf.jasperreports.engine.*;
@@ -17,9 +24,9 @@ import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
-import net.sf.jasperreports.export.SimpleXlsExporterConfiguration;
 import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
 import okhttp3.OkHttpClient;
+import org.apache.commons.io.IOUtils;
 import org.aspectj.util.FileUtil;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,29 +41,28 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.ObjectUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.ContentCachingRequestWrapper;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.Serializable;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @RestController
@@ -72,6 +78,10 @@ public class MainController {
     @Value("${session.server}")
     private String sessionServer;
 
+    //read the property and split it into list with ','
+    @Value("#{'${esles.api.access}'.split(',')}")
+    private List<String> eslesAccesses;
+
     @Autowired
     private AsyncClass asyncClass;
 
@@ -85,16 +95,22 @@ public class MainController {
     @Qualifier("okHttpClient")
     private OkHttpClient okHttpClient;
 
+    @Autowired
+    private RemoteService remoteService;
+
     public Cache<String, String> cache;
 
     @PostConstruct
     public void init() {
-        //util for semi-persistent
+        //util for semi-persistent, see also JSR-107 JCache in DCM project
         cache = CacheBuilder.newBuilder()
-                .initialCapacity(5)
+                .concurrencyLevel(Runtime.getRuntime().availableProcessors())
+                .initialCapacity(5)//5 concurrency hash table
                 .maximumSize(50)
-                .expireAfterWrite(1, TimeUnit.MINUTES)
+                .expireAfterWrite(1, TimeUnit.MINUTES)//not clear automatically, it will be cleared upon putting value
+                .removalListener(notification -> System.out.println(notification.getKey()  + " is removed, cause: " + notification.getCause()))
                 .build();
+
     }
 
     @GetMapping("/index")
@@ -129,8 +145,33 @@ public class MainController {
      *
      *     It will parse json to User object
      * */
-    public ResponseEntity<?> requestBody(@RequestBody User user){
+    public ResponseEntity<?> requestBody(@RequestBody User user,HttpServletRequest request2) throws Exception{
         System.out.println(user.getName()+"--"+user.getPassword());
+
+        //request in this class is always HttpServletRequest, it is initialized when this controller is created instead of request is sent.
+        //request2 is from doFilter, please refer to WebInterceptor.java
+        InputStream is = request.getInputStream();//request is not request2
+        //to read input stream success, it should cache request body before, please refer to doFilter in WebInterceptor
+        String str1 = IOUtils.toString(is, StandardCharsets.UTF_8);//str1 is "" for ContentCachingRequestWrapper in doFilter, not null for MyContentCachingRequestWrapper in doFilter
+        System.out.println("controller request body...");
+        System.out.println(str1);
+
+        if(request2 instanceof ContentCachingRequestWrapper){//Spring request content caching wrapper
+            System.out.println("request body of ContentCachingRequestWrapper...");
+            String requestBody = new String(((ContentCachingRequestWrapper) request2).getContentAsByteArray());
+            System.out.println(requestBody);
+            String requestBody2 = new String(((ContentCachingRequestWrapper) request2).getContentAsByteArray());
+            System.out.println(requestBody2);
+        }
+
+        if(request2 instanceof MyContentCachingRequestWrapper){//Customer request content caching wrapper
+            System.out.println("request body of MyContentCachingRequestWrapper...");
+            String requestBody = new String(((MyContentCachingRequestWrapper) request2).getBody());
+            System.out.println(requestBody);
+            String requestBody2 = new String(((MyContentCachingRequestWrapper) request2).getBody());
+            System.out.println(requestBody2);
+        }
+
         ResponseEntity<?> entity = new ResponseEntity(user, HttpStatus.OK);
         return entity;
         /*
@@ -185,6 +226,18 @@ public class MainController {
         * */
     }
 
+    /**
+     * raw json parameter:
+     *
+     *     {
+     *         "name":"admin",
+     *         "password":"123456"
+     *     }
+     *
+     * Content-Type in Request Header need to be application/json
+     *
+     *     It will parse json to User object
+     * */
     @PostMapping("/postUser")
     public ResponseEntity<?> postUser(@RequestBody(required = true) User user){
 
@@ -541,17 +594,48 @@ public class MainController {
     }
 
     @GetMapping("/testMatch")
-    public String testMatch( @RequestParam(value = "path", required = true) String path){
+    public String testMatch( @RequestParam(value = "url", required = true) String url){
 
+        /**
+         * url need to match with the following express
+         * /api/123.jsp will match with /api/*.jsp but http://xxx.com/api/123.jsp does not, it is different from java regex
+         * please compare with testRegExp method
+         * */
         String urls = "/ap?/auth/signin,/api/*.jsp,/api/account/passwd/**,/api/file/reg/**/*.jsp";
         String[] checkCsrfUrls = urls.split(",");
-        AntPathMatcher matcher = new AntPathMatcher();
+        AntPathMatcher matcher = new AntPathMatcher();//Spring util
 
-        if (Arrays.stream(checkCsrfUrls).anyMatch(p -> matcher.match(p, path))) {
+        if (Arrays.stream(checkCsrfUrls).anyMatch(p -> matcher.match(p, url))) {
             return "match";
         }else{
             return "not match";
         }
+    }
+
+    @GetMapping("/testRegExp")
+    public String testRegExp(@RequestParam(value = "url",required = true) String url){
+
+        /**
+        * url need to match with specify express
+        * https://xxx.com/pga/api/applicaitons && pga/api/applicaitons  will match with /pga/api/applications$
+        * please compare with testMatch method
+        * */
+        boolean match = false;
+        for (String api : eslesAccesses) {
+
+            Pattern pattern = Pattern.compile(api);
+            Matcher matcher = pattern.matcher(url);
+
+            if (matcher.find()) {
+                match = true;
+                break;
+            }
+        }
+
+        if(match){
+            return "match";
+        }
+        return "not match";
     }
 
     @GetMapping("/testWriter")
@@ -584,6 +668,25 @@ public class MainController {
         //export file to client side
         File file1 = new File("C:\\Users\\Dell\\Desktop\\Notes\\example.pdf");
         ByteArrayResource res = new ByteArrayResource(FileUtil.readAsByteArray(file1));
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.parseMediaType("application/pdf"));
+        httpHeaders.add("content-disposition", "inline; filename=document.pdf");
+        httpHeaders.setContentLength(res.contentLength());
+
+        return new ResponseEntity<>(res,httpHeaders, HttpStatus.OK);
+    }
+
+    @GetMapping("/getFile2")
+    @CrossOrigin(exposedHeaders = "content-disposition")
+    public ResponseEntity<ByteArrayResource> getFile2() throws Exception {
+
+        File file1 = new File("C:\\Users\\Dell\\Desktop\\Notes\\response.json");
+        String content = org.apache.commons.io.FileUtils.readFileToString(file1,StandardCharsets.UTF_8);
+        ObjectMapper objectMapper = new ObjectMapper();
+        P1ResponseDTO p1ResponseDTO = objectMapper.readValue(content, P1ResponseDTO.class);
+        //String str = new String(Base64.getDecoder().decode(p1ResponseDTO.getData()), StandardCharsets.UTF_8);
+
+        ByteArrayResource res = new ByteArrayResource(Base64.getDecoder().decode(p1ResponseDTO.getData()));
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.parseMediaType("application/pdf"));
         httpHeaders.add("content-disposition", "inline; filename=document.pdf");
@@ -710,6 +813,7 @@ public class MainController {
         //httpHeaders.add("content-disposition", "attachment; filename=report-demo2.pdf");//for download file directly
         httpHeaders.setContentLength(res.contentLength());
 
+        //AAAADLdJhifm16F8FfWV51h76J7OMjqqupuyDgsF65uEfNiTercxSKa6FSeTyBp3ivxhp1YbHdQHNgtCtN5ocA==
         return new ResponseEntity<>(res,httpHeaders, HttpStatus.OK);
     }
 
@@ -727,5 +831,70 @@ public class MainController {
         }
     }
 
+    @PostMapping("/testValidation")
+    public ResponseEntity<?> testValidation(@Validated @RequestBody User user) { // perform validation for User
+        System.out.println(user.getName() + "--" + user.getPassword());
+        ResponseEntity<?> entity = new ResponseEntity(user, HttpStatus.OK);
+        return entity;
+    }
+
+    @GetMapping("/testRetry")
+    @MyRetryable(maxAttempts = 1, value = RuntimeException.class)
+    public void testRetry() {
+        System.out.println("test retry...");
+        throw new RuntimeException("runtime exception...");
+    }
+
+    @GetMapping("/testRetry2")
+    public void testRetry2(){
+        remoteService.call();
+    }
+
+    @GetMapping("/testYaml")
+    public ResponseEntity<?> testYaml(){
+
+        MySystemProperty mySystemProperty = ApplicationContextProvider.getBean(MySystemProperty.class);
+        System.out.println(mySystemProperty.getName()+"--"+mySystemProperty.getVersion());
+        return new ResponseEntity<>(mySystemProperty, HttpStatus.OK);
+    }
+
+    @GetMapping("/testYaml2")
+    public ResponseEntity<?> testYaml2(){
+
+        YamlStatusProperties mySystemProperty = ApplicationContextProvider.getBean(YamlStatusProperties.class);
+        return null;
+    }
+
+    @GetMapping("/testYaml3")
+    public ResponseEntity<?> testYaml3(){
+
+        YamlStatusProperties2 mySystemProperty = ApplicationContextProvider.getBean(YamlStatusProperties2.class);
+        //this object will be like this
+        /*
+           Q24: [APPROVE,PROC,REJECT,RETURN,COMPLETE]
+        * */
+        Map<String, List<PgaAppStatus>> application = mySystemProperty.getApplication();
+        //this object will be like this
+        /*
+           Q24: [APPROVE,PROC,REJECT,RETURN,COMPLETE]
+           status.Q24: [APPROVE,PROC,REJECT,RETURN,COMPLETE]  duplicate for status, as it's field name is documentStatus instead of document
+        * */
+        Map<String, List<PgaDocStatus>> documentStatus = mySystemProperty.getDocumentStatus();
+        return null;
+    }
+
+    @GetMapping("/img2str")
+    public String img2str() throws Exception{
+
+        String imagePath = "C:\\Users\\Dell\\Desktop\\tsw images\\identity document.JPG";
+        byte[] fileContent = org.apache.commons.io.FileUtils.readFileToByteArray(new File(imagePath));
+        String encodedString = Base64.getEncoder().encodeToString(fileContent);//file to base64 string
+
+        String outPutImagePath = "C:\\Users\\Dell\\Desktop\\tsw images\\identity document2.JPG";
+        byte[] decodedBytes = Base64.getDecoder().decode(encodedString);
+        org.apache.commons.io.FileUtils.writeByteArrayToFile(new File(outPutImagePath), decodedBytes);//base64 string to file
+
+        return encodedString;
+    }
 
 }

@@ -21,6 +21,7 @@ public class AccessControlAspect {
     }
 
     //it will be executed after preHandle of Interceptor(please refer to WebInterceptor)
+    //specify point cuts, it will be executed before the methods with these point cuts
     @Before("publicMethod() && methodHasAnyRolePointcut()")
     public void preCheckByMethod(JoinPoint joinPoint) {
         System.out.println("preCheckByMethod..");
@@ -28,7 +29,7 @@ public class AccessControlAspect {
 
         if(method.isAnnotationPresent(HasAnyRole.class)){
             HasAnyRole hasAnyRole = (HasAnyRole) method.getAnnotation(HasAnyRole.class);
-            System.out.println("Role value:" + hasAnyRole.value().toString());
+            System.out.println("Role value:" + hasAnyRole.value());
         }
 
     }
@@ -36,6 +37,7 @@ public class AccessControlAspect {
     /*
     //if add around, before && after will not be executed
     //it will be executed after preHandle of Interceptor(please refer to WebInterceptor)
+    //it will be executed before the methods with specify point cuts
     @Around("publicMethod() && methodHasAnyRolePointcut()")
     public void aroundCheckByMethod(JoinPoint joinPoint) {
         System.out.println("aroundCheckByMethod..");

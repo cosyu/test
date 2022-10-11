@@ -148,6 +148,7 @@ public class ControllerHandler implements ProblemHandling {
                 .with("path", (req != null ? req.getRequestURI() : ""));
 
         if (problem instanceof ConstraintViolationProblem){
+            //for server side validation
             errCode = 40011;
             builder.with("violations", ((ConstraintViolationProblem) problem).getViolations())
                     .with("code", errCode);

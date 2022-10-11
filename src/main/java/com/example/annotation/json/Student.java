@@ -1,4 +1,4 @@
-package com.example.annotation;
+package com.example.annotation.json;
 
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -11,6 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -19,7 +20,9 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties({ "age"})//it means specify fields will be ignored for serializable or deserialize, same as @JsonIgnore
-public class Student {
+public class Student implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private int id;
 
@@ -28,6 +31,13 @@ public class Student {
 
     @JsonIgnore//it means the field will be ignored for serializable or deserialize
     private String title;
+
+    //variable with transient still can be serialized by Jackson
+    /*The reason Jackson serializes the transient member because the getters are used to
+     determine what to serialize, not the member itself,
+     to serialize transient variable, need to set object mapper's PROPAGATE_TRANSIENT_MARKER to be true
+     * */
+    private transient String password;
 
     private int age;
 
@@ -42,8 +52,8 @@ public class Student {
     @JsonInclude(JsonInclude.Include.NON_NULL)//this filed will NOT be included for serializable or deserialize if value is blank
     private String hobby;
 
-    @JsonSerialize(using = GenderSerialize.class)
-    @JsonDeserialize(using = GenderDeserialize.class)
+    @JsonSerialize(using = GenderSerialize.class)//embed customer logic/class for deserialize
+    @JsonDeserialize(using = GenderDeserialize.class)//embed customer logic/class for deserialize
     private int gender;
 
 }

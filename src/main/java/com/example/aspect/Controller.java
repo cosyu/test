@@ -11,14 +11,14 @@ public class Controller {
 
     @GetMapping("/aspect1")
     public ResponseEntity<String> aspect1(){
-
+        System.out.println("run aspect1 in controller...");
         return new ResponseEntity<>("completed", HttpStatus.OK);//return with HttpStatus
     }
 
     @GetMapping("/aspect2")
     @HasAnyRole({"ADMIN","OPERATOR"})//required role for this method
     public ResponseEntity<String> aspect2(){
-
+        System.out.println("run aspect2 in controller...");
         return new ResponseEntity<>("completed", HttpStatus.OK);//return with HttpStatus
     }
 }

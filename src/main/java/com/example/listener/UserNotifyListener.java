@@ -1,8 +1,7 @@
 package com.example.listener;
 
-import com.example.test.User;
+import com.example.domain.User;
 import org.springframework.context.ApplicationListener;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 //listener is observer, it will be created by Spring and registered(added) into observer(listener) list in SimpleApplicationEventMulticaster

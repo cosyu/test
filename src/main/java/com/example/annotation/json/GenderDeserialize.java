@@ -1,4 +1,4 @@
-package com.example.annotation;
+package com.example.annotation.json;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;

@@ -1,18 +1,21 @@
 package com.example;
 
 
-import com.example.test.User;
+import com.example.domain.User;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.ApplicationContext;
+import org.springframework.retry.annotation.EnableRetry;
 
 import java.util.List;
 
 //This class should be put in the root package so that all classes
 // under the root package can be scanned by Spring
-@SpringBootApplication
+@SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
 @ServletComponentScan//it needs this annotation if application is using WebServlet, WebFilter, WebListener
+@EnableRetry //need to enable it if application needs retry
 public class MainApplication {
 
 

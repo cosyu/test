@@ -1,6 +1,6 @@
 package com.example.listener;
 
-import com.example.test.User;
+import com.example.domain.User;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.stereotype.Service;

@@ -2,22 +2,28 @@ package com.example.webmvcconfigurer;
 
 import com.example.controlleradvice.AppInvalidException;
 import com.example.controlleradvice.MyRuntimeException;
+import org.apache.commons.io.IOUtils;
 import org.apache.http.client.utils.DateUtils;
+import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.ContentCachingRequestWrapper;
 import org.zalando.problem.Status;
 
+import javax.servlet.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.*;
 
 //Interceptor for web controller, can be used for checking session
-public class WebInterceptor implements HandlerInterceptor {
+@Component
+public class WebInterceptor implements HandlerInterceptor, Filter {
 
     //this method will be called before controller
     @Override
@@ -31,7 +37,7 @@ public class WebInterceptor implements HandlerInterceptor {
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
         HttpServletRequest httpServletRequest = requestAttributes.getRequest();
 
-        if(request.equals(httpServletRequest)){
+        if(request.equals(httpServletRequest)){//true
             //System.out.println("request equals to httpServletRequest");
         }
 
@@ -95,4 +101,30 @@ public class WebInterceptor implements HandlerInterceptor {
     public HttpServletRequest getRequest() {
         return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
     }
+
+    //doFilter will be executed before preHandle
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        System.out.println("do filter, it should be executed before Spring interceptor...");
+
+        /*
+        * call request.getInputStream() to get request body for some logic e.g. validation
+        * the stream will be closed after first time call, the request body will be empty for the controller method, it will throw
+        * Bad Request: Required request body is missing: public org.springframework.http.ResponseEntity<?> com.example.MainController.requestBody(com.example.domain.User,javax.servlet.http.HttpServletRequest) throws java.lang.Exception
+        * */
+        //String str = IOUtils.toString(request.getInputStream());
+        //System.out.println("request body in filter.");
+        //System.out.println(str);
+        //chain.doFilter(request, response);
+
+        /*
+        * It should cache the request body to avoid situation above
+        * */
+        HttpServletRequest currentRequest = (HttpServletRequest) request;
+        //use ContentCachingRequestWrapper to cache request content for reading N times
+        MyContentCachingRequestWrapper wrappedRequest = new MyContentCachingRequestWrapper(currentRequest);
+        //ContentCachingRequestWrapper wrappedRequest = new ContentCachingRequestWrapper(currentRequest);
+        chain.doFilter(wrappedRequest, response);
+    }
+
 }

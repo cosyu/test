@@ -1,6 +1,6 @@
 package com.example.listener;
 
-import com.example.test.User;
+import com.example.domain.User;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 

@@ -1,8 +1,7 @@
 package com.example.optional;
 
-import com.example.test.User;
+import com.example.domain.User;
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
 
 public class OptionalTest {

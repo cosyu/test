@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -27,8 +28,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@Configuration
-@EnableWebSecurity
+//Disable Spring Security Configure
+//@Configuration
+//@EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
@@ -44,12 +46,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     }
 
+
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
             http.authorizeRequests()
                     .antMatchers("/**").permitAll() //specify path is permitted,no need to auth
-                    .antMatchers("/hello").hasRole("admin")//表示访问 /hello 这个接口，需要具备 admin 这个角色
+                    //.antMatchers("/hello").hasRole("admin")//表示访问 /hello 这个接口，需要具备 admin 这个角色
                     .anyRequest() //對象為所有網址
                     .authenticated() //存取必須通過驗證
                     .and()
@@ -91,10 +95,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         })
                         .permitAll()//和表单logout相关的接口统统都直接通过
                         .and()*/
-                    /**
-                     * enable csrf token, it will add token to cookie(with name X-CSRF-TOKEN) which is added to response
-                     * server side can get the token from request header or cookie
-                     */
+
+                     // enable csrf token, it will add token to cookie(with name X-CSRF-TOKEN) which is added to response
+                     // server side can get the token from request header or cookie
+
                     .httpBasic().and().csrf()
                     .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
 

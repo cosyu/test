@@ -1,12 +1,9 @@
 package com.example.stream;
 
-import com.example.test.User;
+import com.example.domain.User;
 import com.google.common.collect.Lists;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class StreamTest {
 

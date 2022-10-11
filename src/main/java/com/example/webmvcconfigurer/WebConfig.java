@@ -1,5 +1,6 @@
 package com.example.webmvcconfigurer;
 
+import com.example.config.ApplicationContextProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -41,7 +42,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
 
-        registry.addInterceptor(new WebInterceptor()).addPathPatterns("/**");//all path will be intercepted
+        registry.addInterceptor(ApplicationContextProvider.getBean(WebInterceptor.class)).addPathPatterns("/**");//all path will be intercepted
         registry.addInterceptor(localeChangeInterceptor()).addPathPatterns("/**");
     }
 

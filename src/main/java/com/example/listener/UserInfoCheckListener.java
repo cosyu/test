@@ -1,8 +1,7 @@
 package com.example.listener;
 
-import com.example.test.User;
+import com.example.domain.User;
 import org.springframework.context.event.EventListener;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service

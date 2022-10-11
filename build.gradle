@@ -33,6 +33,9 @@ dependencies {
     //Spring application will perform authentication automatically once the Spring Security is added into application
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-aop")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation("org.springframework.retry:spring-retry:1.3.3")
+
 
     compileOnly("org.projectlombok:lombok:1.18.20")
     annotationProcessor("org.projectlombok:lombok:1.18.20")
@@ -61,8 +64,6 @@ dependencies {
     //if missing this library, it will throw java.lang.ClassNotFoundException: org.mozilla.javascript.EvaluatorException for Jasper
     implementation("org.mozilla:rhino:1.7R4")
     implementation("org.apache.poi:poi:5.2.2")//for export excel file by Jasper
-
-
 
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

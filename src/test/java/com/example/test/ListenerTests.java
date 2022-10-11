@@ -1,5 +1,6 @@
 package com.example.test;
 
+import com.example.domain.User;
 import com.example.listener.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

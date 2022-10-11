@@ -1,4 +1,4 @@
-package com.example.test;
+package com.example.generic;
 
 import java.util.Collection;
 

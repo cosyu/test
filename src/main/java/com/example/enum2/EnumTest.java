@@ -1,7 +1,5 @@
 package com.example.enum2;
 
-import com.example.annotation.Child;
-
 public class EnumTest {
 
 
