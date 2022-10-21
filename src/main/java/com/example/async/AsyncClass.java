@@ -37,6 +37,7 @@ public class AsyncClass {
 
     //it will use TaskExecutor which is  defined in AsyncConfig class
     //the thread will be put in the pool
+    //It must use Future<?> as return value, otherwise, it always returns null
     @Async("threadPool")
     public Future<String> asyncMethod2() throws Exception{
 
@@ -54,4 +55,5 @@ public class AsyncClass {
         }
 
     }
+
 }

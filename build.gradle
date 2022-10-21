@@ -1,6 +1,9 @@
 plugins {
     //it needs Spring Boot & Spring Dependency Management plugin,
     //otherwise, it cannot use dependencies of Spring Boot for the java application
+    //user Spring Boot plugin means this project can be build as image with a technology called Cloud Native Buildpacks (CNB)
+    //with this plugin, the jar will be build into 4 layer by default, u can use java -Djarmode=layertools -jar xxx.jar list/extract  to list/extract the layer
+    //u can also customer layer, please refer to bootJar script
     id 'org.springframework.boot' version '2.5.6'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     //it needs Java plugin, otherwise, it cannot build the java application
@@ -32,6 +35,8 @@ dependencies {
     implementation("org.springframework.session:spring-session-data-redis")//for session
     //Spring application will perform authentication automatically once the Spring Security is added into application
     implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.security.oauth:spring-security-oauth2:2.0.12.RELEASE")
+
     implementation("org.springframework.boot:spring-boot-starter-aop")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.retry:spring-retry:1.3.3")
@@ -41,7 +46,7 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok:1.18.20")
 
     // https://mvnrepository.com/artifact/com.google.guava/guava
-    implementation 'com.google.guava:guava:31.1-jre'
+    implementation("com.google.guava:guava:31.1-jre")
     implementation("org.apache.commons:commons-lang3:3.6")
     implementation("commons-io:commons-io:2.11.0")
 
@@ -74,3 +79,26 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+/*
+bootJar {
+    archiveFileName = "test.jar"
+    layered {
+        enabled = true
+        application {
+            intoLayer("external-dependencies") {
+                include "org/springframework/boot/loader/**"
+            }
+            intoLayer("application")
+        }
+        dependencies {
+            intoLayer("application") {
+                includeProjectDependencies()
+            }
+            intoLayer("internal-dependencies") {
+                include "hk.gov.cedb.tsw:*:*" //for included private library
+            }
+            intoLayer("external-dependencies")
+        }
+        layerOrder = ["external-dependencies", "internal-dependencies", "application"]
+    }
+}*/

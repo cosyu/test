@@ -33,18 +33,17 @@ public class ResetTemplateResponseErrorHandler extends DefaultResponseErrorHandl
         switch (statusCode.series()) {
             case CLIENT_ERROR:
                 HttpClientErrorException exp1 = new HttpClientErrorException(statusCode, response.getStatusText(), response.getHeaders(), getResponseBody(response), getCharset(response));
-                log.error("客户端调用异常",exp1);
+                log.error("Client error",exp1);
                 throw  exp1;
             case SERVER_ERROR:
                 HttpServerErrorException exp2 = new HttpServerErrorException(statusCode, response.getStatusText(),
                         response.getHeaders(), getResponseBody(response), getCharset(response));
-                log.error("服务端调用异常",exp2);
+                log.error("Server error",exp2);
                 throw exp2;
             default:
                 UnknownHttpStatusCodeException exp3 = new UnknownHttpStatusCodeException(statusCode.value(), response.getStatusText(),
                         response.getHeaders(), getResponseBody(response), getCharset(response));
-                log.error("网络调用未知异常")
-                ;
+                log.error("Unknown error",exp3);
                 throw exp3;
         }
     }

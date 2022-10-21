@@ -16,6 +16,7 @@ import com.example.yaml.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.design.JasperDesign;
@@ -36,15 +37,17 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
+import org.springframework.ui.Model;
 import org.springframework.util.AntPathMatcher;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.util.ObjectUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
@@ -66,6 +69,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @RestController
+@Slf4j
 public class MainController {
 
     @Autowired
@@ -77,6 +81,9 @@ public class MainController {
     //so that the value can be injected
     @Value("${session.server}")
     private String sessionServer;
+
+    @Value("${resource.test.path}")
+    private Resource testResource;//can be read as Resource
 
     //read the property and split it into list with ','
     @Value("#{'${esles.api.access}'.split(',')}")
@@ -895,6 +902,67 @@ public class MainController {
         org.apache.commons.io.FileUtils.writeByteArrayToFile(new File(outPutImagePath), decodedBytes);//base64 string to file
 
         return encodedString;
+    }
+
+    @GetMapping("/testLog")
+    public void testLog() {
+        log.debug("test log debug output.....");//this will not output, please refer to logback-spring.xml
+        log.info("test log info output.....");
+        log.warn("test log warn output....");
+        log.error("test log error output...");
+    }
+
+    @GetMapping("/testRes")
+    public String testRes() throws Exception{
+
+        return new String(FileUtil.readAsByteArray(testResource.getInputStream()));
+
+    }
+
+    //Test OAuth
+    @GetMapping("/index.html")
+    public String oAuth(String code) {
+
+        String res = "";
+        if (code != null) {
+
+            RestTemplate restTemplate = (RestTemplate)ApplicationContextProvider.getBean("SSLRestTemplate");
+            MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+            map.add("code", code);
+            map.add("client_id", "javaboy");
+            map.add("client_secret", "123456");//access token need secret while code does not
+            map.add("redirect_uri", "http://localhost:8090/index.html");
+            map.add("grant_type", "authorization_code");//code mode
+            //please refer to Test-OAuth-Auth-Service
+            //get access token with returned code from Authorization Server
+            Map<String,String> resp = restTemplate.postForObject("http://localhost:8180/oauth/token", map, Map.class);
+            String access_token = resp.get("access_token");
+            System.out.println("access token of authorization: " + access_token);//54f4cd76-0c2b-4ddf-b53a-7bb2c0d98134
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Authorization", "Bearer " + access_token);//remember this is bearer token
+            HttpEntity<Object> httpEntity = new HttpEntity<>(headers);
+            //please refer to Test-OAuth-Auth-Resource
+            //get resource with access token from Resource Server
+            //It will check the token is valid or not in Resource Server
+            ResponseEntity<String> entity = restTemplate.exchange("http://localhost:8181/admin/hello", HttpMethod.GET, httpEntity, String.class);
+            res = entity.getBody();
+        }
+
+        return "<!DOCTYPE html>\n" +
+                "<html lang='en' xmlns:th='http://www.thymeleaf.org'>\n" +
+                "<head>\n" +
+                "    <meta charset='UTF-8'>\n" +
+                "    <title>OAuth</title>\n" +
+                "</head>\n" +
+                "<body>\n" +
+                "Hello, welcome to OAuth！\n" +
+                "\n" +
+                "<a href='http://localhost:8180/oauth/authorize?client_id=javaboy&response_type=code&redirect_uri=http://localhost:8090/index.html'>第三方登录</a>\n" + //request auth code with client id
+                "\n" +
+                "<h1>"+res+"</h1>\n" +
+                "</body>\n" +
+                "</html>";
     }
 
 }

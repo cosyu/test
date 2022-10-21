@@ -16,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.jackson2.CoreJackson2Module;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
@@ -28,6 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+//it needs to do a lot of customer work in real project, it prefers to implement security control instead of using Spring security
 //Disable Spring Security Configure
 //@Configuration
 //@EnableWebSecurity
@@ -53,12 +55,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
             http.authorizeRequests()
                     .antMatchers("/**").permitAll() //specify path is permitted,no need to auth
-                    //.antMatchers("/hello").hasRole("admin")//表示访问 /hello 这个接口，需要具备 admin 这个角色
+                    .antMatchers("/hello").hasRole("admin")//表示访问 /hello 这个接口，需要具备 admin 这个角色
                     .anyRequest() //對象為所有網址
                     .authenticated() //存取必須通過驗證
                     .and()
                     .formLogin() //若未不符合authorize條件，則產生預設login表單
-                    //.loginPage("/index")
+                    //.loginPage("/login") //customer login url
                     .loginProcessingUrl("/doLogin")
                     .defaultSuccessUrl("/queryUser")
                     .successHandler(new AuthenticationSuccessHandler() {
@@ -99,7 +101,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                      // enable csrf token, it will add token to cookie(with name X-CSRF-TOKEN) which is added to response
                      // server side can get the token from request header or cookie
 
-                    .httpBasic().and().csrf()
+                    .httpBasic().authenticationEntryPoint(
+                            new AuthenticationEntryPoint() {
+                                @Override
+                                public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+                                    response.setContentType("application/json;charset=utf-8");
+                                    PrintWriter out = response.getWriter();
+                                    out.write("尚未登录，请先登录");
+                                    out.flush();
+                                    out.close();
+                                }
+                            }
+                    ).and().csrf()
                     .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
 
     }

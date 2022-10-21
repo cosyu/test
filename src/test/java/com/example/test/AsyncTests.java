@@ -67,7 +67,7 @@ public class AsyncTests {
         // which is thrown by async method in the main thread
         if(future != null){
             try{
-                future.get();
+                System.out.println(future.get());
             }catch (Exception ex){
                 System.out.println("catch exception from async method with return value:" + ex.getMessage());
             }
@@ -101,4 +101,5 @@ public class AsyncTests {
         System.out.println("-----"+Thread.currentThread().getName()+ "  asyncMethod is end");
 
     }
+
 }
