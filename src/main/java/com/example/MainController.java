@@ -936,7 +936,7 @@ public class MainController {
             //please refer to Test-OAuth-Auth-Service
             //get access token with returned code from Authorization Server
             Map<String,String> resp = restTemplate.postForObject("http://localhost:8180/oauth/token", map, Map.class);
-            String access_token = resp.get("access_token");
+            String access_token = resp.get("access_token");//if this access token is modified, it will throw 401 Unauthorized
             System.out.println("access token of authorization: " + access_token);//54f4cd76-0c2b-4ddf-b53a-7bb2c0d98134
 
             HttpHeaders headers = new HttpHeaders();
