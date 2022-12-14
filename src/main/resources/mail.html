@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="mul">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<h2 th:text="${message}" />
+
+<div>
+    <p>Dear Sir / Madam ,</p>
+    <p>The following user pool has been created: </p>
+    <p>Creator: <span th:text="${creatorFullName}"></span></p>
+    <p>Username: <span th:text="${username}"></span></p>
+    <p>User Pool Name: <span th:text="${userPoolName}"></span></p>
+    <p>This is a computer generated email, please do not reply to this email. Should you have any questions, please feel free to contact us by phone at (852) 2117 3348 or by email at <a href="mailto:enquiry@tradesinglewindow.hk">enquiry@tradesinglewindow.hk</a>.</p>
+    <p>Office of Trade Single Window Operation</p><br/>
+    <p>敬啟者：</p>
+    <p>以下用戶群組已被建立：</p>
+    <p>建立人: <span th:text="${creatorFullName}"></span></p>
+    <p>帳戶名稱: <span th:text="${username}"></span></p>
+    <p>用戶群組: <span th:text="${userPoolName}"></span></p>
+    <p>此電郵是由電腦系統自動發送，請勿回覆。如有查詢，請致電(852) 2117 3348 或電郵至<a href="mailto:enquiry@tradesinglewindow.hk">enquiry@tradesinglewindow.hk</a>。</p>
+    <p>貿易單一窗口科</p>
+</div>
+</body>
+</html>

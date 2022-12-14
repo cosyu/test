@@ -2,6 +2,7 @@ package com.example;
 
 import com.example.async.AsyncClass;
 import com.example.config.ApplicationContextProvider;
+import com.example.config.MyProperties;
 import com.example.report.Client;
 import com.example.report.ClientByCountry;
 import com.example.report.P1ResponseDTO;
@@ -40,7 +41,6 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.*;
-import org.springframework.ui.Model;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -52,6 +52,8 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.ContentCachingRequestWrapper;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.Cookie;
@@ -62,7 +64,6 @@ import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -104,6 +105,9 @@ public class MainController {
 
     @Autowired
     private RemoteService remoteService;
+
+    @Autowired
+    private SpringTemplateEngine springTemplateEngine;
 
     public Cache<String, String> cache;
 
@@ -619,6 +623,17 @@ public class MainController {
         }
     }
 
+    @GetMapping("/testMatch2")
+    public String testMatch2(@RequestParam(value = "mail", required = true) String mailAddress){
+        String[] whitelist = "tswp2-dev.hk".split(",");
+        if(Arrays.stream(whitelist).anyMatch(mailAddress::contains)){//mail needs to contain tswp2-dev.hk
+            return  "match";
+        }else{
+            return  "not match";
+        }
+
+    }
+
     @GetMapping("/testRegExp")
     public String testRegExp(@RequestParam(value = "url",required = true) String url){
 
@@ -884,7 +899,8 @@ public class MainController {
         //this object will be like this
         /*
            Q24: [APPROVE,PROC,REJECT,RETURN,COMPLETE]
-           status.Q24: [APPROVE,PROC,REJECT,RETURN,COMPLETE]  duplicate for status, as it's field name is documentStatus instead of document
+           status.Q24: [APPROVE,PROC,REJECT,RETURN,COMPLETE]  duplicate for status,
+           as it's field name is documentStatus instead of document
         * */
         Map<String, List<PgaDocStatus>> documentStatus = mySystemProperty.getDocumentStatus();
         return null;
@@ -963,6 +979,26 @@ public class MainController {
                 "<h1>"+res+"</h1>\n" +
                 "</body>\n" +
                 "</html>";
+    }
+
+
+    @GetMapping("/template")
+    public String template() {
+        String templatePath = "mail";
+        Context ctx = new Context();
+        ctx.setVariable("message", "This is my message");
+        ctx.setVariable("creatorFullName", "Chan Tai Man");
+        return springTemplateEngine.process(templatePath, ctx);
+    }
+
+    @GetMapping("/property2")
+    public String property2() {
+        String mailSubjectPrefix = MyProperties.getProperty("tsw.notification.template.mail.subject.prefix");
+        String subject = MyProperties.getProperty("tsw.notification.template.R01.en.subject");
+        String storeType = MyProperties.getProperty("spring.session.store-type");
+        String systemName = MyProperties.getProperty("system.name");
+        String status = MyProperties.getProperty("yaml.application.Q24[0]");
+        return  mailSubjectPrefix+"--"+ subject+"--"+storeType+"--"+systemName+"--"+status;
     }
 
 }
